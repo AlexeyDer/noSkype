@@ -7,6 +7,16 @@ buildscript {
     }
 }
 
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+dependencies {
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'

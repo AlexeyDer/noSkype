@@ -10,7 +10,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/noSkype</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
-        <mapping class="ru.eltex.entity.User"/>
-        <mapping class="ru.eltex.entity.Person"/>
+        <mapping class="eltex.entity.User"/>
+        <mapping class="eltex.entity.Person"/>
     </session-factory>
 </hibernate-configuration>

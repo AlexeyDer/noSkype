@@ -7,11 +7,19 @@ buildscript {
     }
 }
 
+// Конфигурация для devtools dependency
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-
 
 bootJar {
     baseName = 'spring-rest-service'
@@ -19,7 +27,6 @@ bootJar {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
@@ -35,4 +42,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.assertj:assertj-core:3.11.1")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("com.h2database:h2")
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
 }

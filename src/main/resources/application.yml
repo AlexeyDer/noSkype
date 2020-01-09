@@ -2,7 +2,8 @@ server:
   port: 8080
 spring:
   thymeleaf:
-    prefix: file:src/main/resource/templates/
+    prefix: file:src/main/resources/templates/
     cache: false
+
 
 

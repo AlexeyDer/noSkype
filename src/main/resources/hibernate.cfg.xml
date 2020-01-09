@@ -12,5 +12,5 @@
         <property name="hibernate.connection.password"></property>
         <mapping class="eltex.entity.User"/>
         <mapping class="eltex.entity.Person"/>
-    </session-factory>
+    </session-factory>g
 </hibernate-configuration>

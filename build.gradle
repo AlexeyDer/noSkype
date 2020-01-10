@@ -34,7 +34,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    // compile group: 'org.springframework', name: 'spring-tx', version: '5.2.2.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tx', version: '5.2.2.RELEASE'
     implementation 'org.hibernate:hibernate-core:5.4.3.Final'
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")

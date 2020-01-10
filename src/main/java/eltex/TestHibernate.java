@@ -7,9 +7,6 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import eltex.entity.Person;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TestHibernate {
     public static void testHibernate() {
 

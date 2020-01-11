@@ -28,14 +28,12 @@ import java.util.List;
  *
  */
 
-//@Entity
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Person
-//        extends User
-{
+public class Person extends User {
 
     private String login;
     private String password; // следует хешировать
@@ -45,7 +43,7 @@ public class Person
     private String dateOfLastVisit;
 
     public Person(Integer id, String fio, String phone, String login) {
-//        super(id, fio, phone);
+        super(id, fio, phone);
         this.login = new String(login);
         this.password = "none";
         this.mail = "mail@mail.ru";

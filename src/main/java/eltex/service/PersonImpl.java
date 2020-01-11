@@ -2,6 +2,9 @@ package eltex.service;
 
 import lombok.Setter;
 import eltex.repository.RepositoryPerson;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import eltex.entity.Person;
@@ -10,15 +13,18 @@ import java.util.List;
 
 @Service
 public class PersonImpl implements PersonService {
-    @Setter
+
     private RepositoryPerson repositoryPerson;
+
+    @Autowired(required = true)
+    @Qualifier(value = "repositoryPerson")
+    public void setRepositoryPerson(RepositoryPerson repositoryPerson) {
+        this.repositoryPerson = repositoryPerson;
+    }
 
     @Override
     @Transactional
     public void addPerson(Person person) {
-        if (this.repositoryPerson == null) {
-
-        }
         this.repositoryPerson.addPerson(person);
     }
 

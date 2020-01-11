@@ -4,13 +4,12 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.hbm2ddl.auto">create</property> <!-- create, update, none -->
+        <property name="hibernate.hbm2ddl.auto">none</property> <!-- create, update, none -->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1/noSkype</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"></property>
-        <mapping class="ru.eltex.entity.User"/>
-        <mapping class="ru.eltex.entity.Person"/>
+        <mapping class="eltex.entity.Person"/>
     </session-factory>
 </hibernate-configuration>

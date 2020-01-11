@@ -16,7 +16,6 @@ configurations {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -34,16 +33,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    compile 'mysql:mysql-connector-java:8.0.17'
+    compile group: 'org.springframework', name: 'spring-tx', version: '5.2.2.RELEASE'
+    implementation 'org.hibernate:hibernate-core:5.4.3.Final'
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.h2database:h2")
-    compile 'mysql:mysql-connector-java'
-
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.assertj:assertj-core:3.11.1")
 }

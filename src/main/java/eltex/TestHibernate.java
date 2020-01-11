@@ -7,13 +7,12 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import eltex.entity.Person;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TestHibernate {
-    public static void testHibernate() {
+    public TestHibernate() {
 
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure("/hibernate.cfg.xml").build();
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sessionFactory = null;
 
         try {
@@ -32,6 +31,16 @@ public class TestHibernate {
         sessionWrite.save(person1);
         sessionWrite.getTransaction().commit();
         sessionWrite.close();
+
+        // считывание данных
+        Session sessionRead = sessionFactory.openSession();
+        sessionRead.beginTransaction();
+        List<Person> personList = sessionRead.createQuery("FROM Person").list(); // HQL
+        personList.forEach(person -> {
+            System.out.println(person.getId() + " : " + person.getFio() + " VIKI");
+        });
+        sessionRead.getTransaction().commit();
+        sessionRead.close();
 
     }
 }

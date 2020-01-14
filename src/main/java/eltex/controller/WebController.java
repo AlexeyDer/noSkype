@@ -45,11 +45,9 @@ class WebController {
     }
 
     @GetMapping("/")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+    public String greeting(Model model) {
         TestHibernate testHibernate = new TestHibernate();
-        model.addAttribute("name", name);
-
-        return "index";
+        return "greeting";
     }
 
 }

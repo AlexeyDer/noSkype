@@ -1,31 +1,24 @@
 package eltex.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.AllArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import java.util.List;
 
 /**
- *  Класс Person (наследуется от User)
- *  Сущность для описания пользователя, дополнительно содержит:
- *      логин
- *      пароль
- *      почта
- *      список друзей
- *      статус (online, offline)
- *      когда был в сети последний раз
+ * Класс Person (наследуется от User)
+ * Сущность для описания пользователя, дополнительно содержит:
+ * логин
+ * пароль
+ * почта
+ * список друзей
+ * статус (online, offline)
+ * когда был в сети последний раз
  *
- *  @author "Viktoria"
- *  @version 1.0.0
- *
+ * @author "Viktoria"
+ * @version 1.0.0
  */
 
 @Entity
@@ -53,7 +46,7 @@ public class Person extends User {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "[id = " + super.getId() + ", login = " + this.login + "]";
     }
 

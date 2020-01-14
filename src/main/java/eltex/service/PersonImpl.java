@@ -1,13 +1,11 @@
 package eltex.service;
 
-import lombok.Setter;
+import eltex.entity.Person;
 import eltex.repository.RepositoryPerson;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import eltex.entity.Person;
 
 import java.util.List;
 

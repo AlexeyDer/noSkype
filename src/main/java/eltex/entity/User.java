@@ -11,11 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
- *  Класс User
+ * Класс User
  *
- *  @author "Viktoria"
- *  @version 1.0.0
- *
+ * @author "Viktoria"
+ * @version 1.0.0
  */
 @MappedSuperclass
 @AllArgsConstructor
@@ -24,12 +23,14 @@ import javax.persistence.MappedSuperclass;
 @Setter
 public class User {
 
-      @GeneratedValue(strategy = GenerationType.TABLE) @Id private Integer id;
-      private String fio;
-      private String phone;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Id
+    private Integer id;
+    private String fio;
+    private String phone;
 
-      public User(String fio, String phone) {
-          this.fio = new String(fio);
-          this.phone = new String(phone);
-      }
+    public User(String fio, String phone) {
+        this.fio = new String(fio);
+        this.phone = new String(phone);
+    }
 }

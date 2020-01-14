@@ -18,7 +18,7 @@ public class SpringConfig {
     }
 
     @Bean
-    public SessionFactory sessionFactory(){
+    public SessionFactory sessionFactory() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory factory = null;
 

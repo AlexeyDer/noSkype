@@ -5,31 +5,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  *  Класс User
  *
- *  @author "Viktoria"
+ *  @author "Alexey Derevtsov"
  *  @version 1.0.0
  *
  */
-@MappedSuperclass
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 public class User {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    private Long id;
+    private String username;
+    private String password;
+    private boolean active;
 
-      @GeneratedValue(strategy = GenerationType.TABLE) @Id private Integer id;
-      private String fio;
-      private String phone;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
 
-      public User(String fio, String phone) {
-          this.fio = new String(fio);
-          this.phone = new String(phone);
-      }
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

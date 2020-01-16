@@ -17,12 +17,6 @@
         <th>Email</th>
         <th>Phone</th>
     </tr>
-<!--    <tr>-->
-<!--        <td th:utext="${u.id}">...</td>-->
-<!--        <td th:utext="${u.username}">...</td>-->
-<!--        <td th:utext="${u.email}">...</td>-->
-<!--        <td th:utext="${u.phone}">...</td>-->
-<!--    </tr>-->
     <tr th:each ="user : ${users}">
         <td th:utext="${user.id}">...</td>
         <td th:utext="${user.username}">...</td>

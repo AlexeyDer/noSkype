@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Users</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+        }
+    </style>
 </head>
 <body>
-    
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+    </tr>
+<!--    <tr>-->
+<!--        <td th:utext="${u.id}">...</td>-->
+<!--        <td th:utext="${u.username}">...</td>-->
+<!--        <td th:utext="${u.email}">...</td>-->
+<!--        <td th:utext="${u.phone}">...</td>-->
+<!--    </tr>-->
+    <tr th:each ="user : ${users}">
+        <td th:utext="${user.id}">...</td>
+        <td th:utext="${user.username}">...</td>
+        <td th:utext="${user.email}">...</td>
+        <td th:utext="${user.phone}">...</td>
+    </tr>
+</table>
 </body>
 </html>

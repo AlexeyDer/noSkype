@@ -1,45 +1,41 @@
 package eltex.controller;
 
+import eltex.entity.User;
+import eltex.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
 class WebController {
-//    private PersonService personService;
-//
-//    @Autowired(required = true)
-//    @Qualifier(value = "personService")
-//    public void setPersonService(PersonService personService) {
-//        this.personService = personService;
-//    }g
-//
-//    @RequestMapping("persondata/{id}")
-//    public String personData(@PathVariable("id") int id, Model model){
-//        model.addAttribute("person", this.personService.getPersonById(id));
-//
-//        return "person";
-//    }
-//
-//    @RequestMapping(value = "/persons/add", method = RequestMethod.GET)
-//    public String addPerson(Model model){
-//        Person person1 = new Person(1, "lili", "900", "lilii");
-//        personService.addPerson(person1);
-//
-//        return "person";
-//    }
-//
-//    @RequestMapping(value = "person", method = RequestMethod.GET)
-//    public String listPerson(Model model){
-//        model.addAttribute("person", new Person());
-//        model.addAttribute("listPerson", this.personService.listPersons());
-//
-//        return "person";
-//    }
 
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping("/get_users/{id}")
+    public String userData(@PathVariable("id") Long id, Model model) {
+        if (userRepository.findById(id) == null)
+            return "/errors/404";
+        List<User> us = new ArrayList<>(1);
+        us.add(userRepository.findById(id));
+        model.addAttribute("users", us);
+        return "users";
+    }
+
+    @GetMapping("/get_users")
+    public String getUsers(Model model) {
+        List<User> users = userRepository.findAll();
+        model.addAttribute("users", users);
+        return "users";
+    }
+
+    @GetMapping({"/", "/greeting"})
     public String greeting(Model model) {
         return "greeting";
     }

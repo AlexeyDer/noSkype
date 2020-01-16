@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Абстрактный класс для создания от него нужных сущностей
@@ -26,4 +28,5 @@ public abstract class AbstractUser {
     private Long id;
     private String username;
     private String password;
+    private String confirmPassword;
 }

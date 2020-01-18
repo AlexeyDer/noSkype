@@ -1,4 +1,4 @@
-package eltex.config;
+package eltex.components;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;

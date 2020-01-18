@@ -24,6 +24,7 @@
         <td th:utext="${user.email}">...</td>
         <td th:utext="${user.phone}">...</td>
         <td th:utext="${user.roles}">...</td>
+        <td><a href="userEdit.html" th:href = "@{/get_users/{userId}(userId = ${user.id})}" > edit </a> </td>
     </tr>
 </table>
 </body>

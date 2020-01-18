@@ -16,12 +16,14 @@
         <th>User Name</th>
         <th>Email</th>
         <th>Phone</th>
+        <th>Roles</th>
     </tr>
     <tr th:each ="user : ${users}">
         <td th:utext="${user.id}">...</td>
         <td th:utext="${user.username}">...</td>
         <td th:utext="${user.email}">...</td>
         <td th:utext="${user.phone}">...</td>
+        <td th:utext="${user.roles}">...</td>
     </tr>
 </table>
 </body>

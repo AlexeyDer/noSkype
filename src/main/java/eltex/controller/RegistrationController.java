@@ -1,21 +1,14 @@
 package eltex.controller;
 
-import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
 import eltex.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
-import java.net.UnknownServiceException;
-import java.util.Collections;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Котроллер для регестрации

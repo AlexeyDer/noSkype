@@ -36,4 +36,13 @@ public class UserService {
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
     }
+
+    public void registNewAdmin(User user) {
+        String code = passwordEncoder.encode(user.getPassword());
+        user.setPassword(code);
+        user.setConfirmPassword(code);
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.ADMIN));
+        userRepository.save(user);
+    }
 }

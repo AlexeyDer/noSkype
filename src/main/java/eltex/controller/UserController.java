@@ -3,16 +3,20 @@ package eltex.controller;
 import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
+import org.aspectj.lang.annotation.DeclareError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.ElementCollection;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/get_users")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired
     private UserRepository userRepository;

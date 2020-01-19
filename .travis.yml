@@ -1,0 +1,4 @@
+language: java
+install: gradle
+script:
+- gradle build && gradle bootRun

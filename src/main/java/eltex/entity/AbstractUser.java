@@ -29,4 +29,9 @@ public abstract class AbstractUser {
     private String username;
     private String password;
     private String confirmPassword;
+
+    public AbstractUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

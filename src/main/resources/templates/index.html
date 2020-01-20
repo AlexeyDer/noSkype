@@ -56,7 +56,7 @@ input {
 
 <script>
         //connecting to our signaling server
-var conn = new WebSocket('ws://192.168.1.6:8080//socket');
+var conn = new WebSocket('ws://192.168.1.6:8080/socket');
 
 conn.onopen = function() {
     console.log("Connected to the signaling server");
@@ -92,7 +92,6 @@ var peerConnection;
 var dataChannel;
 var input = document.getElementById("messageInput");
 
-
 function initialize() {
     var configuration = null;
 
@@ -112,19 +111,6 @@ function initialize() {
         }
     };
 
-    peerConnection.onaddstream = function(event) {
-        videoElement.srcObject = event.stream;
-    };
-
-    // запрос на использование камеры
-    const constraints = {
-        video: true,audio : true
-    };
-    navigator.mediaDevices.getUserMedia(constraints).
-    then(function(stream) { /* нам разрешили использовать камеру */ })
-    .catch(function(err) { /* не разрешили */ });
-
-
     // creating data channel
     dataChannel = peerConnection.createDataChannel("dataChannel", {
         reliable : true
@@ -142,7 +128,6 @@ function initialize() {
     dataChannel.onclose = function() {
         console.log("data channel is closed");
     };
-
 }
 
 function createOffer() {
@@ -175,7 +160,6 @@ function handleOffer(offer) {
 
 function handleCandidate(candidate) {
     peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    peerConnection.addStream(stream);peerConnection.addStream(stream);
 };
 
 function handleAnswer(answer) {
@@ -187,8 +171,6 @@ function sendMessage() {
     dataChannel.send(input.value);
     input.value = "";
 }
-
-
     </script>
 <!--WebRTC related code-->
 

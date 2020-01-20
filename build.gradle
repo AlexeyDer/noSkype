@@ -50,4 +50,9 @@ dependencies {
     implementation 'org.springframework.security:spring-security-test'
 //    ----------------------------------------------------------------------
     compile("org.springframework.boot:spring-boot-devtools")
+    //    ----------------------------------------------------------------------
+//                              WEBsocket
+//    ----------------------------------------------------------------------
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.2.2.RELEASE'
+
 }

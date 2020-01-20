@@ -33,12 +33,19 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        // Исключаем зависимсость
+        exclude module: "spring-boot-starter-loggin"
+    }
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("org.assertj:assertj-core:3.11.1")
+//                              Loggin
+//    ----------------------------------------------------------------------
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+//    ----------------------------------------------------------------------
 //                          DataBase support
 //    ----------------------------------------------------------------------
     compile 'mysql:mysql-connector-java:8.0.17'
@@ -48,6 +55,7 @@ dependencies {
 //    ----------------------------------------------------------------------
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
+    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '2.1.2.RELEASE'
 //    ----------------------------------------------------------------------
     compile("org.springframework.boot:spring-boot-devtools")
 }

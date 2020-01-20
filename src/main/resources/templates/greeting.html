@@ -1,11 +1,17 @@
 <!DOCTYPE>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+>
 <head>
-    <title> Greeting page  </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title> Greeting page </title>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mt-2">
     <h1> Hello, you are on the main page noSkype programm! </h1>
-    <a href="/main"> noSkype </a>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

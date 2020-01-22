@@ -24,10 +24,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Home </a>
                 </li>
-                <li sec:authorize= "hasAuthority('ADMIN')" class="nav-item">
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                     <a class="nav-link" href="/get_users">Users</a>
                 </li>
             </ul>
+            <div class="navbar-text" sec:authentication="name"/>
+            <form  sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                <button class="btn btn-primery" type="submit">sign out</button>
+            </form>
+
         </div>
     </nav>
     <!------------------------------------------------------>

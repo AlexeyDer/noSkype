@@ -13,7 +13,7 @@
 <body>
 <div th:fragment="header">
     <!----------------------NavBar------------------------->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="p-3 navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/main">noSkype</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,9 +29,13 @@
                     <a class="nav-link" href="/get_users">Users</a>
                 </li>
             </ul>
-            <div class="navbar-text" sec:authentication="name"/>
-            <form  sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
-                <button class="btn btn-primery ml-2" type="submit"> Sign Out</button>
+            <div sec:authorize="!isAuthenticated()">
+                <a class="btn btn-primery ml-2 text-white" href=/login>Sign In</a>
+                <a class="btn btn-primery border border-primary text-primary " href=/registration>Sign Up</a>
+            </div>
+            <div class="navbar-text text-white" sec:authentication="name" sec:authorize="isAuthenticated()" />
+            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+                <button class="btn btn-primery ml-2 text-primary border-primary" type="submit" > Sign Out</button>
             </form>
         </div>
     </nav>

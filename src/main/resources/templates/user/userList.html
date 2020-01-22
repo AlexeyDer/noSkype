@@ -8,24 +8,29 @@
             padding: 5px;
         }
     </style>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-<table border="1">
-    <tr>
-        <th>Id</th>
-        <th>User Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Roles</th>
-    </tr>
-    <tr th:each ="user : ${users}">
-        <td th:utext="${user.id}">...</td>
-        <td th:utext="${user.username}">...</td>
-        <td th:utext="${user.email}">...</td>
-        <td th:utext="${user.phone}">...</td>
-        <td th:utext="${user.roles}">...</td>
-        <td><a href="userEdit.html" th:href = "@{/get_users/{userId}(userId = ${user.id})}" > edit </a> </td>
-    </tr>
-</table>
+<div th:replace="fragments/header :: header"/>
+<div class="container mt-2">
+    <table border="1">
+        <tr>
+            <th>Id</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Roles</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.id}">...</td>
+            <td th:utext="${user.username}">...</td>
+            <td th:utext="${user.email}">...</td>
+            <td th:utext="${user.phone}">...</td>
+            <td th:utext="${user.roles}">...</td>
+            <td><a href="userEdit.html" th:href="@{/get_users/{userId}(userId = ${user.id})}"> edit </a></td>
+        </tr>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

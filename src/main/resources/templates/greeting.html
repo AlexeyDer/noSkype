@@ -1,16 +1,17 @@
-<!DOCTYPE>
-<html xmlns:th="http://www.w3.org/1999/xhtml"
->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <title> Greeting page </title>
+    <title> Greeting Page </title>
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header"/>
 
-<div class="container mt-2">
+<div class="container">
     <h1> Hello, you are on the main page noSkype programm! </h1>
 </div>
+
 
 <div th:replace="fragments/footer :: footer"/>
 </body>

@@ -28,7 +28,6 @@ public class UserController {
         return "user/userList";
     }
 
-
     @PostMapping
     public String userSave(
             @RequestParam String username,

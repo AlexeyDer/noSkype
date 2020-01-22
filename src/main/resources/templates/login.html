@@ -1,22 +1,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <title>Spring Security Example </title>
+    <title>Sign In</title>
+    <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mt-5">
+    <h1>Please Sign in</h1>
+    <form th:action="@{/login}" method="post">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                Invalid username and password.
+            </div>
+        </div>
+        <div th:if="${param.logout}">
+            <div class="alert alert-info">
+                You have been logged out.
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> User Name :</label>
+            <div class="col-sm-6">
+                <input type="text" name="username" class="form-control" placeholder="UserName" required autofocus/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-6">
+                <input type="password" name="password" class="form-control" placeholder="Password" required/>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Sign In"/>
+        <a class="btn btn-primary" href="/registration" role="button">Registration</a>
+    </form>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<h1>Login Page</h1>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username" required/> </label></div>
-    <div><label> Password: <input type="password" name="password" required/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-    <div><a href="/registration">registration</a></div>
-</form>
+
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

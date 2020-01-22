@@ -14,12 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 /**
+ * Класс для определения правил безопасности на страницах
  *
- *  Класс для определения правил безопасности на страницах
- *
- *  @author "Alexey Derevtsov"
- *  @version 1.0.0
- *
+ * @author "Alexey Derevtsov"
+ * @version 1.0.0
  */
 
 @Configuration
@@ -35,9 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/greeting", "/registration", "/get_users", "/get_users/{id}",
-                            "/errors/404", "/static/**")
-                .permitAll()
+                    .antMatchers("/", "/greeting", "/registration", "/errors/**", "/static/**").permitAll()
+                    .antMatchers("/get_users", "/get_users/{id}").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -47,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout()
                     .permitAll()
                     .logoutSuccessUrl("/");
-        }
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

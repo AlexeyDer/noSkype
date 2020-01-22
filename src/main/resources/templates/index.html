@@ -43,7 +43,7 @@
                             let formdata = new FormData();
                             formdata.append("image", file);
                             let xhr = new XMLHttpRequest();
-                            xhr.open('POST', 'https://IP:PORT/image', true);
+                            xhr.open('POST', 'https://localhost:8080/image', true);
                             xhr.onload = function () {
                                 if (this.status === 200) {
                                     console.log(this.response);
@@ -71,6 +71,7 @@
     }
 </style>
 <body class="hold-transition sidebar-mini layout-fixed" ng-app="SIB" ng-controller="SIBCtrl">
+
 <div class="wrapper">
 
     <div class="content-wrapper">

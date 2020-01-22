@@ -55,7 +55,8 @@ dependencies {
 //    ----------------------------------------------------------------------
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
-    compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity4', version: '2.1.2.RELEASE'
+    compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+
 //    ----------------------------------------------------------------------
     compile("org.springframework.boot:spring-boot-devtools")
 }

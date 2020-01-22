@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title>Spring Security Example </title>
     <div th:replace="fragments/header :: header-css"/>
@@ -36,13 +36,7 @@
         </div>
 
         <input type="submit" class="btn btn-primary" value="Sign In"/>
-
-        <!--        <div class="col-sm-10">-->
-        <!--            <a class = "btn btn-primary" href="/registration">registration</a>-->
-        <!--        </div>-->
-        <!--    </div>-->
-
-
+        <a class="btn btn-primary" href="/registration" role="button">Registration</a>
     </form>
 </div>
 

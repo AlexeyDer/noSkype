@@ -1,89 +1,131 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-messages.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular-cookies.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.12/angular-material.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-<script type="text/javascript">
-    var app = angular.module("SIB", ['ngMaterial', 'ngCookies']);
-    app.controller("SIBCtrl", function($scope, $interval, $http, $cookies) {
-        let videoFromCamera = document.getElementById("video-from-camera");
-        var start = 0;
-        let imgCanvas = document.getElementById('video-canvas');
-        let imgCtx = imgCanvas.getContext("2d");
-        let globalData = null;
+<html>
+    <head>
+        <title>Video chat</title>
+    </head>
 
-        // получение доступа к камере
-        navigator.mediaDevices.getUserMedia({video: {width: 720, height: 480}, audio: false})
-            .then(stream => {
-                videoFromCamera.srcObject = stream;
-                start = (new Date()).getTime();
-                $interval(function(){
-                    // отображение кадра с распознаными данными
-                    imgCanvas.width = videoFromCamera.videoWidth;
-                    imgCanvas.height = videoFromCamera.videoHeight;
+    <body>
 
-                    imgCtx.drawImage(videoFromCamera, 0, 0, videoFromCamera.videoWidth, videoFromCamera.videoHeight);
+    <body>
 
-                    if ((new Date()).getTime() - start > 1500) {
-                        start = (new Date()).getTime();
-                        // отправка файла на распознование
-                        imgCanvas.toBlob(function(file, type) {
-                            let formdata = new FormData();
-                            formdata.append("image", file);
-                            let xhr = new XMLHttpRequest();
-                            xhr.open('POST', 'https://localhost:8080/image', true);
-                            xhr.onload = function () {
-                                if (this.status === 200) {
-                                    console.log(this.response);
-                                    responseObject = JSON.parse(this.response);
-                                    if (responseObject.length === 0) {
-                                        return;
-                                    }
-                                } else
-                                    console.error(xhr);
-                            };
-                            xhr.send(formdata);
-                        }, 'image/jpeg');
-                    }
-                }, 100);
-            })
-            .catch(err => {
-                console.log('navigator.getUserMedia error: ', err)
+    <script>
+        var conn = new WebSocket('wss://192.168.1.6/socket');
+
+        conn.onopen = function() {
+            console.log("Connected to the signaling server");
+        //    initialize();
+        };
+
+        conn.onmessage = function(msg) {
+            console.log("Got message", msg.data);
+            var content = JSON.parse(msg.data);
+            var data = content.data;
+            switch (content.event) {
+            // when somebody wants to call us
+            case "offer":
+                handleOffer(data);
+                break;
+            case "answer":
+                handleAnswer(data);
+                break;
+            // when a remote peer sends an ice candidate to us
+            case "candidate":
+                handleCandidate(data);
+                break;
+            default:
+                break;
+            }
+        };
+
+
+        const constraints = {
+            video: true,audio : true
+        };
+        navigator.mediaDevices.getUserMedia(constraints).
+            then(function(stream) { /* use the stream */ })
+                .catch(function(err) { /* handle the error */ });
+
+        function send(message) {
+            conn.send(JSON.stringify(message));
+        }
+
+/*
+        var peerConnection;
+        var dataChannel;
+        var input = document.getElementById("messageInput");
+        var videoElement = document.getElementById("videoElement");
+
+
+        function initialize() {
+            var configuration = null;
+
+            peerConnection = new RTCPeerConnection(configuration, {
+                optional : [ {
+                    RtpDataChannels : true
+                } ]
             });
-    });
-</script>
-<style>
-    video, canvas {
-        transform: scale(-1, 1);
-        -webkit-transform: scale(-1, 1);
-    }
-</style>
-<body class="hold-transition sidebar-mini layout-fixed" ng-app="SIB" ng-controller="SIBCtrl">
 
-<div class="wrapper">
+            peerConnection.onaddstream = function(event) {
+                videoElement.srcObject = event.stream;
+            };
 
-    <div class="content-wrapper">
-        <section class="content">
-            <div class="container-fluid">
-                <center>
-                    <video id="video-from-camera" autoplay style="display: none; max-width: 300px;"></video>
-                    <canvas id="video-canvas" style="height: 480px; width: 720px;"></canvas><br /><br />
-                </center>
-            </div>
-        </section>
-    </div>
-</div>
-</body>
+            // Setup ice handling
+            peerConnection.onicecandidate = function(event) {
+                if (event.candidate) {
+                    send({
+                        event : "candidate",
+                        data : event.candidate
+                    });
+                }
+            };
+
+            // creating data channel
+            dataChannel = peerConnection.createDataChannel("dataChannel", {
+                reliable : true
+            });
+
+            dataChannel.onerror = function(error) {
+                console.log("Error occured on datachannel:", error);
+            };
+
+            // when we receive a message from the other peer, printing it on the console
+            dataChannel.onmessage = function(event) {
+                console.log("message:", event.data);
+                peerConnection.addStream(stream);
+            };
+
+            dataChannel.onclose = function() {
+                console.log("data channel is closed");
+            };
+        }
+
+        function handleOffer(offer) {
+            peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+
+            // create and send an answer to an offer
+            peerConnection.createAnswer(function(answer) {
+                peerConnection.setLocalDescription(answer);
+                send({
+                    event : "answer",
+                    data : answer
+                });
+            }, function(error) {
+                alert("Error creating an answer");
+            });
+        };
+
+        function handleCandidate(candidate) {
+            peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+        };
+
+        function handleAnswer(answer) {
+            peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+            console.log("connection established successfully!!");
+        };
+
+        function sendMessage() {
+            dataChannel.send(input.value);
+            input.value = "";
+        }
+*/
+    </script>
 </html>

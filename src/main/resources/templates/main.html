@@ -6,9 +6,12 @@
     <div th:replace="fragments/header :: header-css"/>
 </head>
 <body>
-<div th:replace="fragments/header :: header"/>
-
-
-<div th:replace="fragments/footer :: footer"/>
+    <div th:replace="fragments/header :: header"/>
+    <a href="/get_users">Users</a></br>
+    <a href="/index">Index</a>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+    <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

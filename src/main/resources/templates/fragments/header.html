@@ -33,7 +33,7 @@
                 <a class="btn btn-primery ml-2 text-white" href=/login>Sign In</a>
                 <a class="btn btn-primery border border-primary text-primary " href=/registration>Sign Up</a>
             </div>
-            <div class="navbar-text text-white" sec:authentication="name" sec:authorize="isAuthenticated()" />
+            <div id = "name" class="navbar-text text-white" sec:authentication="name" sec:authorize="isAuthenticated()" />
             <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
                 <button class="btn btn-primery ml-2 text-primary border-primary" type="submit" > Sign Out</button>
             </form>

@@ -17,4 +17,9 @@ class WebController {
         return "index";
     }
 
+    @GetMapping({"/chat"})
+    public String chatIndex(Model model) {
+        return "chat";
+    }
+
 }

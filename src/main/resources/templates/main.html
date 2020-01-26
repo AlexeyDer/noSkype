@@ -7,11 +7,23 @@
 </head>
 <body>
     <div th:replace="fragments/header :: header"/>
-    <a href="/get_users">Users</a></br>
-    <a href="/index">Index</a>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
     <div th:replace="fragments/footer :: footer"/>
+
+    <a href="/get_users">Users</a></br>
+        <a href="/index">Index</a>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+    <!--
+    body {
+        display: flex;
+        height: 100vh;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+        padding: 0 50px;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    -->
 </body>
 </html>

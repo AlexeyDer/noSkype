@@ -58,7 +58,7 @@ const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
 const roomName = 'observable-' + roomHash;
 var configuration = null;
 let room;
-let pc;
+let peerConnection;
 
 
 function onSuccess() {};
@@ -82,38 +82,38 @@ drone.on('open', error => {
     console.log('MEMBERS', members);
     // Если мы второй пользователь, который подключится к комнате, мы создадим предложение
     const isOfferer = members.length === 2;
-    startWebRTC(isOfferer);
+    initialize(isOfferer);
   });
 });
 
 // Отправить данные сигнализации через Scaledrone
-function sendMessage(message) {
+function send(message) {
   drone.publish({
     room: roomName,
     message
   });
 }
 
-function startWebRTC(isOfferer) {
-  pc = new RTCPeerConnection(configuration);
+function initialize(isOfferer) {
+  peerConnection = new RTCPeerConnection(configuration);
 
   // «onicecandidate» уведомляет нас, когда агенту ICE необходимо доставить
   // сообщение другому узлу через сервер сигнализации
-  pc.onicecandidate = event => {
+  peerConnection.onicecandidate = event => {
     if (event.candidate) {
-      sendMessage({'candidate': event.candidate});
+      send({'candidate': event.candidate});
     }
   };
 
   // Если пользователь является оферентом, пусть событие'gotiationneeded 'создает предложение
   if (isOfferer) {
-    pc.onnegotiationneeded = () => {
-      pc.createOffer().then(localDescCreated).catch(onError);
+    peerConnection.onnegotiationneeded = () => {
+      peerConnection.createOffer().then(localDescCreated).catch(onError);
     }
   }
 
   // Когда приходит удаленный поток, отобразите его в элементе #remoteVideo
-  pc.ontrack = event => {
+  peerConnection.ontrack = event => {
     const stream = event.streams[0];
     if (!remoteVideo.srcObject || remoteVideo.srcObject.id !== stream.id) {
       remoteVideo.srcObject = stream;
@@ -127,7 +127,7 @@ function startWebRTC(isOfferer) {
     // Показать ваше локальное видео в элементе #localVideo
     localVideo.srcObject = stream;
     // Добавьте ваш поток для отправки на одноранговый узел
-    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+    stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
   }, onError);
 
   // Прослушайте данные сигнализации от Scaledrone
@@ -139,15 +139,15 @@ function startWebRTC(isOfferer) {
 
     if (message.sdp) {
       // Это вызывается после получения предложения или ответа от другого партнера
-      pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
+      peerConnection.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
         // При получении предложения отвечаем на него
-        if (pc.remoteDescription.type === 'offer') {
-          pc.createAnswer().then(localDescCreated).catch(onError);
+        if (peerConnection.remoteDescription.type === 'offer') {
+          peerConnection.createAnswer().then(localDescCreated).catch(onError);
         }
       }, onError);
     } else if (message.candidate) {
       // Добавить нового кандидата ICE в описание удаленного соединения
-      pc.addIceCandidate(
+      peerConnection.addIceCandidate(
         new RTCIceCandidate(message.candidate), onSuccess, onError
       );
     }
@@ -155,9 +155,9 @@ function startWebRTC(isOfferer) {
 }
 
 function localDescCreated(desc) {
-  pc.setLocalDescription(
+  peerConnection.setLocalDescription(
     desc,
-    () => sendMessage({'sdp': pc.localDescription}),
+    () => send({'sdp': peerConnection.localDescription}),
     onError
   );
 }

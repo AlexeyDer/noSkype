@@ -1,6 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+    <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
     <title>noSkype</title>
     <div th:replace="fragments/header :: header-css"/>
     <style>
@@ -11,6 +12,24 @@
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 16px;
             height: 100vh;
+        }
+
+        video_two {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+            padding: 0 50px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        video {
+          max-width: calc(50% - 100px);
+          margin: 0 50px;
+          box-sizing: border-box;
+          border-radius: 2px;
+          padding: 0;
+          box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
         }
 
         .content {
@@ -231,10 +250,10 @@
     </div>
 </div>
 
-<center>
-    <video id="video-from-camera" autoplay style="max-width: 300px;"></video>
-    <!-- <canvas id="video-canvas" style="height: 480px; width: 720px;"></canvas><br /><br /> -->
-</center>
+<video_two>
+  <video id="localVideo" autoplay muted></video>
+  <video id="remoteVideo" autoplay></video>
+</video_two>
 
 <div th:replace="fragments/footer :: footer"/>
 <script>
@@ -250,47 +269,57 @@
         return possibleEmojis[randomIndex];
     }
 
-    //connecting to our signaling server
-    let conn = new WebSocket('ws://localhost:8080/socket');
+    // Random room
+    if (!location.hash) {
+      location.hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+    }
+    const roomHash = location.hash.substring(1);
+
+
+    const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
+    const roomName = 'observable-' + roomHash;
+    var configuration = null;
+    let room;
+    let peerConnection;
+
+
     let name = $("#name").html();
     const emoji = randomEmoji();
 
-    conn.onopen = function () {
-        console.log("Connected to the signaling server");
-        initialize();
+    function onSuccess() {};
+    function onError(error) {
+      console.error(error);
     };
 
-    conn.onmessage = function (msg) {
-        console.log("Got message", msg.data);
-        var content = JSON.parse(msg.data);
-        var data = content.data;
-        switch (content.event) {
-            // when somebody wants to call us
-            case "offer":
-                handleOffer(data);
-                break;
-            case "answer":
-                handleAnswer(data);
-                break;
-            // when a remote peer sends an ice candidate to us
-            case "candidate":
-                handleCandidate(data);
-                break;
-            default:
-                break;
+    drone.on('open', error => {
+      if (error) {
+        return console.error(error);
+      }
+      room = drone.subscribe(roomName);
+      room.on('open', error => {
+        if (error) {
+          onError(error);
         }
-    };
+      });
+      // list person
+      // connect to room
+      room.on('members', members => {
+        console.log('MEMBERS', members);
+        const isOfferer = members.length === 2;
+        initialize(isOfferer);
+      });
+    });
 
     function send(message) {
-        conn.send(JSON.stringify(message));
+      drone.publish({
+        room: roomName,
+        message
+      });
     }
 
-    var peerConnection;
-    var dataChannel;
     var input = document.getElementById("messageInput");
 
-    function initialize() {
-        var configuration = null;
+    function initialize(isOfferer) {
 
         peerConnection = new RTCPeerConnection(configuration, {
             optional: [{
@@ -299,23 +328,62 @@
         });
 
         // Setup ice handling
-        peerConnection.onicecandidate = function (event) {
-            if (event.candidate) {
-                send({
-                    event: "candidate",
-                    data: event.candidate
-                });
-            }
+        peerConnection.onicecandidate = event => {
+          if (event.candidate) {
+            send({'candidate': event.candidate});
+          }
         };
 
-        // creating data channel
         dataChannel = peerConnection.createDataChannel("dataChannel", {
-            reliable: true
+            reliable : true
         });
 
-        dataChannel.onerror = function (error) {
-            console.log("Error occured on datachannel:", error);
+
+        if (isOfferer) {
+          peerConnection.onnegotiationneeded = () => {
+            peerConnection.createOffer().then(localDescCreated).catch(onError);
+          }
+        }
+
+        // display remote stream in #remoteVideo
+        peerConnection.ontrack = event => {
+          const stream = event.streams[0];
+          if (!remoteVideo.srcObject || remoteVideo.srcObject.id !== stream.id) {
+            remoteVideo.srcObject = stream;
+          }
         };
+
+        navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        }).then(stream => {
+          // show your local video #localVideo
+          localVideo.srcObject = stream;
+          // add your thread to the peer
+          stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+        }, onError);
+
+        room.on('data', (message, client) => {
+          if (client.id === drone.clientId) {
+            return;
+          }
+
+          if (message.sdp) {
+            // called after receiving a proposal or response from another user
+            peerConnection.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
+              // upon receipt of the offer, we respond to it
+              if (peerConnection.remoteDescription.type === 'offer') {
+                peerConnection.createAnswer().then(localDescCreated).catch(onError);
+              }
+            }, onError);
+          } else if (message.candidate) {
+            // add new ICE candidate to remote connection description
+            peerConnection.addIceCandidate(
+              new RTCIceCandidate(message.candidate), onSuccess, onError
+            );
+          }
+        });
+
 
         // ........................................RECEIVING MESSAGE ....................................................
         dataChannel.onmessage = function (event) {
@@ -352,41 +420,24 @@
     }
 
     function createOffer() {
-        peerConnection.createOffer(function (offer) {
-            send({
-                event: "offer",
-                data: offer
-            });
-            peerConnection.setLocalDescription(offer);
-        }, function (error) {
-            alert("Error creating an offer");
-        });
+    //    peerConnection.createOffer(function (offer) {
+    //        send({
+    //            event: "offer",
+    //            data: offer
+    //        });
+    //        peerConnection.setLocalDescription(offer);
+    //    }, function (error) {
+    //        alert("Error creating an offer");
+    //    });
     }
 
-    function handleOffer(offer) {
-        peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-
-        // create and send an answer to an offer
-        peerConnection.createAnswer(function (answer) {
-            peerConnection.setLocalDescription(answer);
-            send({
-                event: "answer",
-                data: answer
-            });
-        }, function (error) {
-            alert("Error creating an answer");
-        });
-
-    };
-
-    function handleCandidate(candidate) {
-        peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    };
-
-    function handleAnswer(answer) {
-        peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-        console.log("connection established successfully!!");
-    };
+    function localDescCreated(desc) {
+      peerConnection.setLocalDescription(
+        desc,
+        () => send({'sdp': peerConnection.localDescription}),
+        onError
+      );
+    }
 
     function sendMessage() {
         console.log(name, ": ", input.value);

@@ -231,7 +231,7 @@
             <!--                -------------------------------------------------->
         </div>
 
-        <button type="button" class="btn btn-primary" onclick='createOffer()'>Create Offer</button>
+        <button type="button" class="btn btn-primary" onclick='createVideo()'>video</button>
         <div class="messages">
 
         </div>
@@ -352,7 +352,7 @@
             remoteVideo.srcObject = stream;
           }
         };
-
+/*
         navigator.mediaDevices.getUserMedia({
           audio: true,
           video: true,
@@ -362,7 +362,7 @@
           // add your thread to the peer
           stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
         }, onError);
-
+*/
         room.on('data', (message, client) => {
           if (client.id === drone.clientId) {
             return;
@@ -419,16 +419,16 @@
         // console.log(options.name + ": " + options.content);
     }
 
-    function createOffer() {
-    //    peerConnection.createOffer(function (offer) {
-    //        send({
-    //            event: "offer",
-    //            data: offer
-    //        });
-    //        peerConnection.setLocalDescription(offer);
-    //    }, function (error) {
-    //        alert("Error creating an offer");
-    //    });
+    function createVideo() {
+        navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true,
+        }).then(stream => {
+          // show your local video #localVideo
+          localVideo.srcObject = stream;
+          // add your thread to the peer
+          stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+        }, onError);
     }
 
     function localDescCreated(desc) {

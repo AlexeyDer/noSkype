@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
-class WebController {
+public class WebController {
     @GetMapping({"/", "/greeting"})
     public String greeting(Model model) {
         return "greeting";

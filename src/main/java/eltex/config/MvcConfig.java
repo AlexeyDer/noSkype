@@ -14,12 +14,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+    /**
+     * Метод для возвращения ссылок без серльеной логики
+     */
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/main").setViewName("main");
         registry.addViewController("/index").setViewName("index");
     }
-
+    /**
+     * Метод обработки ресурсов в определенных ссылках
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry

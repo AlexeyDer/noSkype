@@ -14,6 +14,12 @@ import java.util.List;
  */
 
 public interface UserRepository extends JpaRepository<User, Integer> {
+    /**
+     * Поле для поиска пользователя по его логину
+     */
     User findByUsername(String username);
+    /**
+     * Поле для поиска пользователя по его id
+     */
     User findById(Long id);
 }

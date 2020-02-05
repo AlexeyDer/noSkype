@@ -10,16 +10,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 /**
- *  Класс для запуска программы
+ * Класс для запуска программы
  *
- *  @author "Alexey Derevtsov"
- *  @version 1.0.0
- *
+ * @author "Alexey Derevtsov"
+ * @version 1.0.0
  */
-
 @SpringBootApplication
 public class Application {
-
+    /**
+     * Поле подключения сервиса пользователя, с реализацией разной логики
+     */
     @Autowired
     private UserService userService;
 
@@ -28,7 +28,9 @@ public class Application {
     }
 
 
-    // Создаем готовых пользователей
+    /**
+     * Метод автоматически создает пользователей в программе
+     */
     @Bean
     public CommandLineRunner demo(UserRepository userRepository) {
         return (args) -> {

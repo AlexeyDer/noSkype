@@ -11,7 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
- * Абстрактный класс для создания от него нужных сущностей
+ * Абстрактный класс с базовыми полями, которые будут использоваться
+ * в подобных сущностях
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
@@ -23,11 +24,15 @@ import javax.persistence.MappedSuperclass;
 @Getter
 @Setter
 public abstract class AbstractUser {
+    /** Поле идентификатора */
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
+    /** Поле имени и логина пользователя */
     private String username;
+    /** Поле пароля пользователя */
     private String password;
+    /** Поле повторного пароля пользователя */
     private String confirmPassword;
 
     public AbstractUser(String username, String password) {

@@ -44,4 +44,9 @@ public class User extends AbstractUser {
     public User(String u, String p) {
         super(u, p);
     }
+
+    public User(String u, String p, Set<Role> roles) {
+        super(u, p);
+        this.roles = roles;
+    }
 }

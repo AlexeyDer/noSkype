@@ -1,6 +1,7 @@
 package eltex.repository;
 
 import eltex.entity.User;
+import org.apache.catalina.UserDatabase;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

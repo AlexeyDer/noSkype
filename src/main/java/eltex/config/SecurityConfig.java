@@ -29,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private DataSource dataSource;
-
     /**
      * Метод который разрешает или запрещает доступ пользователям с определенными ролями к ссылкам.
      */

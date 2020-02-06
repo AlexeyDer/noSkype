@@ -28,7 +28,6 @@ public class RegistrationController {
      */
     @Autowired
     private UserService userService;
-
     /**
      * Метод @return страницу регестрации
      */
@@ -36,7 +35,6 @@ public class RegistrationController {
     public String registration() {
         return "registration";
     }
-
     /**
      * Метод для добавления пользователей в базу данных
      *
@@ -61,6 +59,4 @@ public class RegistrationController {
 
         return "redirect:/login";
     }
-
-
 }

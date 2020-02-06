@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
-
     /**
      * Метод вывода списка пользователей по ссылке  <b>/get_users</b>
      *
@@ -70,12 +69,12 @@ public class UserController {
 
         return "redirect:/get_users";
     }
-
     /**
      * Метод позволяющий после ссылки <b>/get_users/</b> по номеру его id
      * получение данных об этом пользователе.
      * Если пользователя с данным id не существует, то выдаст ошибку
      *
+     * @param
      * @return возвращает на ссылку иззменения пользователя
      */
     @GetMapping("/{id}")

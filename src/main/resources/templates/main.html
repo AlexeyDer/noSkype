@@ -273,9 +273,9 @@
     let name = $("#name").html();
 
     if (!location.hash) {
-      location.hash = name.toString(16);
+      location.hash = name.toString();
     }
-    const roomHash = location.hash.substring("viki");
+    const roomHash = location.hash;
 
 
     const drone = new ScaleDrone('yiS12Ts5RdNhebyM');

@@ -10,10 +10,6 @@ before_install:
 
 script:
   - mysql --user="root" --execute="CREATE SCHEMA IF NOT EXISTS noSkypeTest;"
-  - mysql -u root noSkypeTest <
-   src/main/resources/create-user-before.sql
-  - mysql -u root noSkypeTest <
-      src/main/resources/create-user-after.sql
   - gradle build && gradle bootRun
 
 

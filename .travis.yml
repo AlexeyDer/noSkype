@@ -9,6 +9,8 @@ before_install:
   - sudo apt-get update
 
 script:
+  - mysql --user = "root" --execute="CREATE DATABASE IF NOT EXISTS noSkypeTest;"
+    - mysql --user = "root" --execute="update user set authentication_string=PASSWORD('sport1337') where user='root' and host='localhost';"
   - gradle build && gradle bootRun
 
 

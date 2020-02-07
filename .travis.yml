@@ -1,11 +1,14 @@
 language: java
+dist: xenial
 
 install: gradle
 
 before_install:
-    - sudo apt-get update
+  - sudo apt-get update
 
 script:
-    - gradle build && gradle bootRun
+  - mysql --user="root" --execute="CREATE SCHEMA IF NOT EXISTS noSkypeTest;"
+  - mysql -u root noSkypeTest <
+  - gradle build && gradle bootRun
 
-dist: xenial
+

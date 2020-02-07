@@ -1,13 +1,13 @@
 language: java
 dist: xenial
 
-install:
-    - gradle
-    - mysql-server
+install: gradle
+
 before_install:
   - sudo apt-get update
 
 script:
+  - sudo apt-get install mysql-server
   - sudo mysql --user="root" --execute="CREATE SCHEMA IF NOT EXISTS noSkypeTest;"
   - sudo mysql -u root noSkypeTest <
   - gradle build && gradle bootRun

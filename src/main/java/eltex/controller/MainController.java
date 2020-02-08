@@ -22,13 +22,12 @@ public class MainController {
     }
 
     @PostMapping
-    public String searchUsers(@RequestParam String searchUsername) {
-       User user = userRepository.findByUsername(searchUsername);
-       if (user != null) {
-           return "main#" + searchUsername;
-       }
-        return "main";
+    public String searchUsers(Model model, @RequestParam String searchUsername) {
+        User user = userRepository.findByUsername(searchUsername);
+        if (user == null) {
+            return "main";
+        }
+
+        return "redirect:/main#" + user.getUsername();
     }
-
-
 }

@@ -269,27 +269,18 @@
         return possibleEmojis[randomIndex];
     }
 
-    // Random room
     let name = $("#name").html();
-    <<<<<<<
-    HEAD
-    === === =
 
-    >>>>>>>
-    aa3e05afa0e456e01fb3d9236ac0199c75418cce
     if (!location.hash) {
         location.hash = name.toString(16);
     }
-    const roomHash = location.hash.substring("viki");
-
+    const roomHash = location.hash.substring(name);
 
     const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
     const roomName = 'observable-' + roomHash;
     var configuration = null;
     let room;
     let peerConnection;
-
-
     const emoji = randomEmoji();
 
     function onSuccess() {

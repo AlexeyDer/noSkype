@@ -217,15 +217,22 @@
                 </div>
             </form>
             <!----------------------------inbox chat------------------------------>
-            <div class="inbox_chat">
-                <div class="chat_list active_chat">
-                    <div class="chat_people">
-                        <div class="chat_ib">
-                            <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                            <p>Test, which is a new approach to have all solutions
-                                astrology under one roof.</p>
+            <div th:if="!${error}">
+                <div class="inbox_chat">
+                    <div class="chat_list active_chat">
+                        <div class="chat_people">
+                            <div class="chat_ib">
+                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
+                                <p>Test, which is a new approach to have all solutions
+                                    astrology under one roof.</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div th:if="${error}">
+                <div class="inbox_chat">
+                    <h5 align="center" th:text="${error}"></h5>
                 </div>
             </div>
             <!--                -------------------------------------------------->

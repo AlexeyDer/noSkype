@@ -25,6 +25,7 @@ public class MainController {
     public String searchUsers(Model model, @RequestParam String searchUsername) {
         User user = userRepository.findByUsername(searchUsername);
         if (user == null) {
+            model.addAttribute("error", "Not found");
             return "main";
         }
 

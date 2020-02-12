@@ -9,7 +9,7 @@ before_install:
   - sudo apt-get update
 
 script:
-  - mysql --user="root" --execute="CREATE SCHEMA IF NOT EXISTS noSkypeTest;"
+  - gradle test
   - gradle build && gradle bootRun
 
 

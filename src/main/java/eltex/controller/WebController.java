@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * Контроллер для страницы приветсвия
+ * Контроллер для страницы приветствия
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
@@ -17,15 +17,4 @@ public class WebController {
     public String greeting(Model model) {
         return "greeting";
     }
-
-    @GetMapping({"/index"})
-    public String index(Model model) {
-        return "index";
-    }
-
-    @GetMapping({"/chat"})
-    public String chatIndex(Model model) {
-        return "chat";
-    }
-
 }

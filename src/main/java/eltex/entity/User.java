@@ -49,4 +49,10 @@ public class User extends AbstractUser {
         super(u, p);
         this.roles = roles;
     }
+
+    public User(String u, String p, Set<Role> roles, String email) {
+        super(u, p);
+        this.roles = roles;
+        this.email = email;
+    }
 }

@@ -16,27 +16,36 @@ import java.util.Map;
  * @author "Alexey Derevtsov"
  * @version 1.0.0
  */
-
 @Controller
 public class RegistrationController {
-
+    /**
+     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     */
     @Autowired
     private UserRepository userRepository;
-
+    /**
+     * Поле подключения сервиса пользователя, с реализацией разной логики
+     */
     @Autowired
     private UserService userService;
-
+    /**
+     * Метод @return страницу регестрации
+     */
     @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
-
+    /**
+     * Метод для добавления пользователей в базу данных
+     *
+     * @return страницу авторизации
+     */
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
         // Проверка на сходство введенных паролей
-        if (!user.getPassword().equals(user.getConfirmPassword())){
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
             model.put("message", "Passwords isn't equals!");
             return "registration";
         }
@@ -50,6 +59,4 @@ public class RegistrationController {
 
         return "redirect:/login";
     }
-
-
 }

@@ -17,17 +17,22 @@ import java.util.Collections;
  * @author "Alexey Derevtsov"
  * @version 1.0.0
  */
-
 @Service
 @Transactional
 public class UserService {
-
+    /**
+     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     */
     @Autowired
     private UserRepository userRepository;
-
+    /**
+     * Поле для кодирования данных
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    /**
+     * Метод регастрации нового пользователя
+     */
     public void registNewUser(User user) {
         String code = passwordEncoder.encode(user.getPassword());
         user.setPassword(code);
@@ -36,7 +41,9 @@ public class UserService {
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
     }
-
+    /**
+     * Метод регастрации нового админа
+     */
     public void registNewAdmin(User user) {
         String code = passwordEncoder.encode(user.getPassword());
         user.setPassword(code);

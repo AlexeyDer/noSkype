@@ -21,7 +21,7 @@ import static org.springframework.security.test.web.servlet.response.SecurityMoc
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 /**
- * Класс для тестирования главнной страницы
+ * Класс для интеграционного главнной страницы
  *
  * Для этого класса нужно создать отдельную бд noSkypeTest
  * на которой будет проходить тестироване

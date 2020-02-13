@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser("usr")
-@TestPropertySource("/application-test.yml")
+@TestPropertySource("/application.yml")
 @Sql(value = {"/create-user-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/create-user-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class MainControllerTest {

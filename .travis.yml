@@ -9,7 +9,6 @@ before_install:
   - sudo apt-get update
 
 script:
-  - gradle test
-  - gradle build && gradle bootRun
+  - gradle build -x test && gradle bootJar && gradle bootRun
 
 

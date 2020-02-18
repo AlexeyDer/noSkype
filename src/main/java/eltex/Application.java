@@ -39,10 +39,10 @@ public class Application {
     public CommandLineRunner demo(UserRepository userRepository) {
         return (args) -> {
             // Add user
-            userService.registNewUser(new User("u", "p"));
+            userService.registNewUser(new User("u", "p"), false);
             // Add admin
-            userService.registNewAdmin(new User("admin", "p"));
-            userRepository.save(new User("admin2", "pass", Collections.singleton(Role.ADMIN)));
+            userService.registNewUser(new User("admin", "p"), true);
+
         };
     }
 

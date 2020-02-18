@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    cache: false
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost/noSkype
+    username: root
+    password:

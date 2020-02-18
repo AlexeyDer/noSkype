@@ -6,6 +6,6 @@ before_install:
     - sudo apt-get update
 
 script:
-    - gradle build && gradle bootRun
+    - gradle build && gradle bootJar
 
 dist: xenial

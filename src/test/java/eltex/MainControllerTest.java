@@ -52,6 +52,9 @@ public class MainControllerTest {
                 .andExpect(MockMvcResultMatchers.xpath("//*[@id='name']").string("usr"));
     }
 
+    /**
+     * Метод для тестирования контроллера страницы приветсвия
+     */
     @Test
     public void contexLoads() throws Exception {
        assertThat(controller).isNotNull();

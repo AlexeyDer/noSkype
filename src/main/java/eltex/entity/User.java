@@ -1,9 +1,6 @@
 package eltex.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -20,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class User extends AbstractUser {
     private boolean active;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -28,6 +26,7 @@ public class User extends AbstractUser {
     private Set<Role> roles;
     private String email;
     private String phone;
+
 
     public User(String u, String p) {
         super(u, p);

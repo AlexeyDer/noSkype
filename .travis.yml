@@ -1,3 +1,5 @@
+dist: xenial
+
 language: java
 
 install: gradle
@@ -8,4 +10,11 @@ before_install:
 script:
     - gradle build && gradle bootJar
 
-dist: xenial
+deploy:
+    provider: releases
+    api_key:
+        secure: "R/eSpZ5CkUj2qcWkEgek7c141j2JlQfve7XALe9hWjlf0uZOIqUj4A9W6DRrBEeLtIbOaJHPo2V3KolilnsNv7oI8+vF2omsCDJ6kk0CzXs+bZZ45yplUGDvz86ZnqOePySpajrFu/X6GnDWsNGQ9FJ+IJroDenKjhApOBeNMDi1OYsmt2wfczfstPofg7A9sqogtbCnQmCMPFpErKr8D3rMkdCAa15ATTgqNLv3HQOm7xTGghwMahl92I3YKSWIuQJNquOEPiHKLazANf/Ub2D2ML5mQrzBDmVjPEpF67gDlkHIUsUdm6wN8WSst+p8q77tnSUGMs328uU7/dJ+XmgsbvfR2OYUD6awLDQ848c8FXN8JzZJ2DIOnmzm6oOAcy6Dfv5s0ZYbBEaYYiLfTwz0inXjmNRyhCyxprPnVV0KopkOYZKcjo/LaYHfHGGxUkl4AjhdfBp6aAsEdW5vbR+TZuiEDIDKleE0OGdKs8UQGlJaWZ9RIqGfxRW1XMD+WdczbXxEu6hPk0UkXZer8nrQbHbUg/JaS4IZgfMymQ+29QJnolC+0E2m4L9UZ2wp12jQmPrV3g/XQXK/ROdpTye1DdqSYu35XjOweAa7WH5j6I9M5463ddiW4IpBhKtI50FhW5knk+lZHE5GO1H+JnwiyypPl63tBsNxJyN+rHo="
+    file: "build/libs/spring-rest-service-0.1.0.jar spring-rest-service-0.1.0.jar"
+    skip_cleanup: true
+    draft: true
+

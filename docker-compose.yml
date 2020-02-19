@@ -1,0 +1,20 @@
+web:
+  image: trukhinyuri/apache-php
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - ./apache/www/:/var/www/
+  #    - ./apache/conf/sites-enabled/:/etc/apache2/sites-enabled/
+  links:
+    - db
+  restart: always
+db:
+  image: centurylink/mysql:latest
+  volumes:
+    - ./mysql/conf/:/etc/mysql/conf.d/
+    - ./mysql/data/:/var/lib/mysql/
+  environment:
+    MYSQL_ROOT_PASSWORD:
+    MYSQL_DATABASE: noSkype
+  restart: always

@@ -5,6 +5,9 @@ import eltex.entity.User;
 import eltex.repository.UserRepository;
 import org.aspectj.lang.annotation.DeclareError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
     @GetMapping
     public String getUsers(Model model) {
         List<User> users = userRepository.findAll();
@@ -32,7 +36,7 @@ public class UserController {
     public String userSave(
             @RequestParam String username,
             @RequestParam Map<String, String> form,
-            @RequestParam ("userId") Long id) {
+            @RequestParam("userId") Long id) {
         User user = userRepository.findById(id);
         if (user == null)
             return "/errors/404";

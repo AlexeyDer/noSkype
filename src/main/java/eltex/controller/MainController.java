@@ -1,8 +1,6 @@
 package eltex.controller;
 
-import eltex.entity.Message;
 import eltex.entity.User;
-import eltex.repository.MessageRepository;
 import eltex.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private MessageRepository messageRepository;
 
     @GetMapping
     public String getMainPage(Model model) {
@@ -36,4 +31,5 @@ public class MainController {
 
         return "redirect:/main#" + user.getUsername();
     }
+
 }

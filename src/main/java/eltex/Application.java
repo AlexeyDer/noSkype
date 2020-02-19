@@ -40,6 +40,8 @@ public class Application {
         return (args) -> {
             // Add user
             userService.registNewUser(new User("u", "p"));
+            userService.registNewUser(new User("u1", "p"));
+            userService.registNewUser(new User("u2", "p"));
             // Add admin
             userService.registNewAdmin(new User("admin", "p"));
             userRepository.save(new User("admin2", "pass", Collections.singleton(Role.ADMIN)));

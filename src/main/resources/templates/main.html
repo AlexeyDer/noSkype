@@ -205,26 +205,25 @@
     <div class="inbox_msg">
         <div class="inbox_people">
             <!--                ---------srch---------------------------------------->
-            <form th:action="@{/main}" th:method="post">
-                <div class="headind_srch">
-                    <div class="srch_bar">
-                        <div class="stylish-input-group">
-                            <input th:name="searchUsername" th:type="text" class="search-bar" placeholder="Search">
-                            <span class="input-group-addon">
+            <div class="headind_srch">
+                <div class="srch_bar">
+                    <div class="stylish-input-group">
+                        <form th:action="@{/main}" th:method="post">
+                            <input id="searchUsername" th:name="searchUsername" onclick="getListUsers()" th:type="text"
+                                   class="search-bar" placeholder="Search">
+                        </form>
+                        <span class="input-group-addon">
                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                 </span></div>
-                    </div>
                 </div>
+            </div>
             </form>
             <!----------------------------inbox chat------------------------------>
             <div th:if="!${error}">
                 <div class="inbox_chat">
                     <div class="chat_list active_chat">
                         <div class="chat_people">
-                            <div class="chat_ib">
-                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                <p>Test, which is a new approach to have all solutions
-                                    astrology under one roof.</p>
+                            <div id="users" class="chat_ib">
                             </div>
                         </div>
                     </div>
@@ -246,12 +245,10 @@
             <input id="messageInput" type="text" placeholder="Your message..">
             <button type="submit" onclick='sendMessage()'>Send</button>
         </form>
-
-
         <template data-template="message">
-            <div class="message">
-                <div class="message__name"></div>
-                <div class="message__bubble"></div>
+            <div th:name="message" class="message">
+                <div th:name="message__name" class="message__name"></div>
+                <div th:name="message__bubble" class="message__bubble"></div>
             </div>
         </template>
     </div>
@@ -264,6 +261,25 @@
 
 <div th:replace="fragments/footer :: footer"/>
 <script>
+    var isGetListUsers = false;
+    let name = $("#name").html();
+
+    function writeTextInSearchBox(data) {
+        $('searchUsername').val(data);
+    }
+
+    function getListUsers() {
+        if (!isGetListUsers) {
+            $.getJSON("/api/user/list").then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $('#users')
+                        .append('<button onclick = "writeTextInSearchBox(data[i].username)" type="submit">' + data[i].username + '<button/>');
+                }
+            });
+            isGetListUsers = true;
+        }
+    }
+
     const possibleEmojis = [
         '🐀', '🐁', '🐭', '🐹', '🐂', '🐃', '🐄', '🐮', '🐅', '🐆', '🐯', '🐇', '🐐', '🐑', '🐏', '🐴',
         '🐎', '🐱', '🐈', '🐰', '🐓', '🐔', '🐤', '🐣', '🐥', '🐦', '🐧', '🐘', '🐩', '🐕', '🐷', '🐖',
@@ -276,12 +292,11 @@
         return possibleEmojis[randomIndex];
     }
 
-    let name = $("#name").html();
-
     if (!location.hash) {
         location.hash = name.toString(16);
     }
     const roomHash = location.hash.substring(name);
+
 
     const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
     const roomName = 'observable-' + roomHash;
@@ -445,6 +460,28 @@
         );
     }
 
+    function insertMessageToController(options, isFromMe) {
+        $.ajax({
+            type: "POST",
+            url: "/api/getMessage",
+            data: {
+                myMsg: {
+                    "name": options.name,
+                    "content": options.content,
+                    "emoji": options.emoji,
+                    "isFromMe": isFromMe
+                }
+            },
+            success: function (response) {
+                // do something ...
+                console.log("insertMessageToController success!")
+            },
+            error: function (e) {
+                alert('Error: ' + e);
+            }
+        });
+    }
+
     function sendMessage() {
         console.log(name, ": ", input.value);
 
@@ -457,6 +494,7 @@
         dataChannel.send(JSON.stringify(data));
 
         insertMessageToDOM(data, true);
+        insertMessageToController(data, true);
     }
 </script>
 

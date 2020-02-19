@@ -24,11 +24,14 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+    /**
+     * Поле подключения источников данных
+     */
     @Autowired
     private DataSource dataSource;
-
-    //Задаем доступ станицам
+    /**
+     * Метод который разрешает или запрещает доступ пользователям с определенными ролями к ссылкам.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -45,7 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .logoutSuccessUrl("/");
     }
-
+    /**
+     * Метод делает выборку из бд проверяя наличие пользователя с именем, которое пытаются ввести при регестрации,
+     * А также выполняет авторизацию с определенным именем пользователя
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
@@ -54,7 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select username, password, active from user where username=?")
                 .authoritiesByUsernameQuery("select u.username, ur.roles from user u inner join user_role ur on u.id = ur.user_id where u.username=?");
     }
-
+    /**
+     * Метод для кодирования пороля пользователя
+     * @return закодированный пароль
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

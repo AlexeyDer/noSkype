@@ -1,14 +1,17 @@
 dist: xenial
 
+services:
+    - mysql
+
 language: java
 
 install: gradle
 
 before_install:
-    - sudo apt-get update
+  - sudo apt-get update
 
 script:
-    - gradle build && gradle bootJar
+    - gradle build -x test && gradle bootJar
 
 deploy:
     provider: releases

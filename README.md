@@ -7,6 +7,10 @@
 
 Перед Вами web-приложение - чат с возможностью видеозвонка, созданный с помощью технологии **webRTC**.
 
+Запуск из docker:
+docker run --rm -u gradle -v "$PWD":/home/gradle/project -w /home/gradle/project gradle gradle build -x test && gradle bootRun
+
+
 Перед запуском:
 - заменить YOU_NAME_COMP в файле run.sh на своё имя компьютера
 - sudo chown YOU_NAME_COMP: nginx_conf

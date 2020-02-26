@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 /**
- * Класс для тестирования страницы авторизации
+ * Интеграционное тестирование страницы авторизации
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0

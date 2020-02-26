@@ -1,8 +1,6 @@
 package eltex.repository;
 
 import eltex.entity.User;
-import org.apache.log4j.Logger;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

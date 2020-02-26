@@ -4,9 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.Set;
-
-import static org.junit.Assert.*;
 /**
  * Класс для тестирования сущности User
  * Тестируются геттеры и сеттеры

@@ -12,9 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,15 +29,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class RegistrationControllerTest {
     @Autowired
-    RegistrationController registrationController;
+    private UserRepository userRepository;
+
+    @Autowired
+    private RegistrationController registrationController;
     /**
      * Поле для работы с mockMvc
      */
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Test
     public void contextLoad() throws Exception {
@@ -53,28 +51,58 @@ public class RegistrationControllerTest {
     public void registrationGet() throws Exception {
         this.mockMvc.perform(get("/registration"))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("registration"));
+    }
+    /**
+     * Метод проверяет ввод коректных данных на странице регистрации
+     */
+    @Test
+    public void addUser() throws Exception {
+        this.mockMvc.perform(post("/registration")
+                .with(csrf())
+                .param("username", "usr")
+                .param("password", "password")
+                .param("confirmPassword", "password")
+                .param("email", "u@u")
+                .param("phone", "123"))
+                .andExpect(redirectedUrl("/login"));
 
     }
-
-    /*
     /**
-     * Метод проверяет имя атрибута, который возращается этой функцией
+     * Метод проверяет ввод не совпадающих паролей на странице регистрации
      */
-//    @Test
-//    public void addUser() throws Exception {
-//        User u = userRepository.findByUsername("usr");
-//
-//        if (u == null) {
-//            this.mockMvc.perform(post("/registration")
-//                    .param("username", "usr")
-//                    .param("password", "password")
-//                    .param("confirmPassword", "password")
-//                    .param("email", "u@u")
-//                    .param("phone", "123"))
-//                    .andExpect(status().isOk());
-//
-//        }
-//
-//    }
+    @Test
+    public void addUserErrorPassword() throws Exception {
+        this.mockMvc.perform(post("/registration")
+                .with(csrf())
+                .param("username", "usr2")
+                .param("password", "password")
+                .param("confirmPassword", "pass")
+                .param("email", "u@u")
+                .param("phone", "123"))
+                .andExpect(model().attribute("message", "Passwords isn't equals!"))
+                .andExpect(status().isOk());
+
+    }
+    /**
+     * Метод проверяет, что пользователь с таким же username, который есть в бд, не может быть создан
+     */
+    @Test
+    public void addUserErrorUserName() throws Exception {
+        User user = new User();
+        user.setUsername("usr3");
+        userRepository.save(user);
+
+        this.mockMvc.perform(post("/registration")
+                .with(csrf())
+                .param("username", "usr3")
+                .param("password", "password")
+                .param("confirmPassword", "password")
+                .param("email", "u@u")
+                .param("phone", "123"))
+                .andExpect(model().attribute("message", "Person exists!"))
+                .andExpect(status().isOk());
+    }
+
 }

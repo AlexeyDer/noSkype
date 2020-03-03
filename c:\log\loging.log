@@ -1,0 +1,32 @@
+2020-03-03 18:06:28 INFO  Application:51 - Create User
+2020-03-03 18:06:28 INFO  Application:54 - Create Admin
+2020-03-03 18:06:28 INFO  Application:41 - Start application!
+2020-03-03 19:14:34 INFO  UserService:46 - Search users from db
+2020-03-03 19:14:34 INFO  UserService:58 - Create user with role USER
+2020-03-03 19:14:34 INFO  UserService:62 - Password was encode
+2020-03-03 19:14:34 INFO  UserService:64 - Password was changed
+2020-03-03 19:14:34 INFO  UserService:66 - PasswordConfirm was changed
+2020-03-03 19:14:34 INFO  UserService:68 - Activity Status Set
+2020-03-03 19:14:34 INFO  UserService:70 - User saved in DB
+2020-03-03 19:14:34 INFO  Application:51 - Create User
+2020-03-03 19:14:34 INFO  UserService:46 - Search users from db
+2020-03-03 19:14:34 INFO  UserService:55 - Create user with role ADMIN
+2020-03-03 19:14:35 INFO  UserService:62 - Password was encode
+2020-03-03 19:14:35 INFO  UserService:64 - Password was changed
+2020-03-03 19:14:35 INFO  UserService:66 - PasswordConfirm was changed
+2020-03-03 19:14:35 INFO  UserService:68 - Activity Status Set
+2020-03-03 19:14:35 INFO  UserService:70 - User saved in DB
+2020-03-03 19:14:35 INFO  Application:54 - Create Admin
+2020-03-03 19:14:35 INFO  Application:41 - Start application!
+2020-03-03 19:14:54 DEBUG WebController:29 - WebController is executed!
+2020-03-03 19:14:55 DEBUG WebController:29 - WebController is executed!
+2020-03-03 19:19:26 DEBUG RegistrationController:42 - RegistrationContoller is executed!
+2020-03-03 19:19:39 INFO  RegistrationController:54 - Find user from db
+2020-03-03 19:19:39 INFO  UserService:46 - Search users from db
+2020-03-03 19:19:39 INFO  UserService:58 - Create user with role USER
+2020-03-03 19:19:39 INFO  UserService:62 - Password was encode
+2020-03-03 19:19:39 INFO  UserService:64 - Password was changed
+2020-03-03 19:19:39 INFO  UserService:66 - PasswordConfirm was changed
+2020-03-03 19:19:39 INFO  UserService:68 - Activity Status Set
+2020-03-03 19:19:39 INFO  UserService:70 - User saved in DB
+2020-03-03 19:19:39 INFO  RegistrationController:69 - User created.

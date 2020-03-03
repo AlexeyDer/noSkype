@@ -1,5 +1,6 @@
 package eltex.controller;
 
+import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
 import org.junit.Test;
@@ -9,12 +10,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +37,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource("/application.yml")
+@Sql(value = {"/create.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/delete.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class UserControllerTest {
     /**
      * Поле для работы с mockMvc
@@ -71,24 +81,32 @@ public class UserControllerTest {
 
     }
 
-    //    @Test
-//    public void userSave() {
-//    }
-//
-    @Autowired
-    UserRepository userRepository2ForAddUsers;
-
 //    @Test
 //    @WithMockUser(username = "a", password = "p", authorities = "ADMIN")
-//    public void userData() throws Exception {
-//        User user = userRepository2ForAddUsers.save(new User());
-//
-//        mockMvc.perform(get("/get_users/1").with(csrf()))
+//    public void userSave() throws Exception {
+//        User user = ur.findById(Long.valueOf(1));
+//        mockMvc.perform(post("/get_users/{id}", 1).with(csrf())
+//                .param("username", user.getUsername())
+//                .param("userId", user.getId().toString())
+//        )
 //                .andDo(print())
 //                .andExpect(authenticated())
-//                .andExpect(status().isOk())
-//                .andExpect(MockMvcResultMatchers.view().name("/user/userEdit"));
+//                .andExpect(status().isOk());
 //    }
+
+    @Test
+    @WithMockUser(username = "a", password = "p", authorities = "ADMIN")
+    public void userData() throws Exception {
+        User user = userRepository.findById(Long.valueOf(1));
+
+        mockMvc.perform(get("/get_users/{id}", 1).with(csrf()))
+                .andDo(print())
+                .andExpect(authenticated())
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("user", user));
+//                .andExpect(model().attribute("roles", Role.values()));
+//                .andExpect(MockMvcResultMatchers.view().name("/user/userEdit"));
+    }
 
     /**
      * Метод тестирующий вывод ошибки о том, что пользователь не найдет!

@@ -21,8 +21,7 @@ import java.util.Set;
 public class User extends AbstractUser {
     /**
      * Поле статуса пользователя (Активен, не активен)
-     */
-    private boolean active;
+     */    private boolean active;
     /**
      * Поле ролей пользователя
      */

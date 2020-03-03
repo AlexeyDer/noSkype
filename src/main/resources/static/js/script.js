@@ -1,42 +1,58 @@
+var isGetListUsers = false;
+
+function writeTextInSearchBox(data) {
+    $('searchUsername').val(data);
+}
+
+function getListUsers() {
+    if (!isGetListUsers) {
+        $.getJSON("/api/user/list").then(function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $('#users')
+                    .append('<button onclick = "writeTextInSearchBox(data[i].username)" type="submit">' + data[i].username + '</button>');
+            }
+        });
+        isGetListUsers = true;
+    }
+}
+
 const possibleEmojis = [
-    '🐀','🐁','🐭','🐹','🐂','🐃','🐄','🐮','🐅','🐆','🐯','🐇','🐐','🐑','🐏','🐴',
-    '🐎','🐱','🐈','🐰','🐓','🐔','🐤','🐣','🐥','🐦','🐧','🐘','🐩','🐕','🐷','🐖',
-    '🐗','🐫','🐪','🐶','🐺','🐻','🐨','🐼','🐵','🙈','🙉','🙊','🐒','🐉','🐲','🐊',
-    '🐍','🐢','🐸','🐋','🐳','🐬','🐙','🐟','🐠','🐡','🐚','🐌','🐛','🐜','🐝','🐞',
+    '🐀', '🐁', '🐭', '🐹', '🐂', '🐃', '🐄', '🐮', '🐅', '🐆', '🐯', '🐇', '🐐', '🐑', '🐏', '🐴',
+    '🐎', '🐱', '🐈', '🐰', '🐓', '🐔', '🐤', '🐣', '🐥', '🐦', '🐧', '🐘', '🐩', '🐕', '🐷', '🐖',
+    '🐗', '🐫', '🐪', '🐶', '🐺', '🐻', '🐨', '🐼', '🐵', '🙈', '🙉', '🙊', '🐒', '🐉', '🐲', '🐊',
+    '🐍', '🐢', '🐸', '🐋', '🐳', '🐬', '🐙', '🐟', '🐠', '🐡', '🐚', '🐌', '🐛', '🐜', '🐝', '🐞',
 ];
 
 function randomEmoji() {
     var randomIndex = Math.floor(Math.random() * possibleEmojis.length);
+    console.info("Create random emoji");
     return possibleEmojis[randomIndex];
 }
 
-const emoji = randomEmoji();
-const name = prompt("What's your name?");
+let name = $("#name").html();
+console.info("Get name user");
 
-// Generate random chat hash if needed
 if (!location.hash) {
-    location.hash = Math.floor(Math.random() * 0xFFFFFF).toString(16);
+    location.hash = name.toString();
 }
-const chatHash = location.hash.substring(1);
+const roomHash = location.hash;
+console.info("Create roomHash user");
 
-// TODO: Replace with your own channel ID
+
 const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
-// Scaledrone room name needs to be prefixed with 'observable-'
-const roomName = 'observable-' + chatHash;
-// Scaledrone room used for signaling
+const roomName = 'observable-' + roomHash;
+var configuration = null;
 let room;
+let peerConnection;
+const emoji = randomEmoji();
 
-const configuration = {
-    iceServers: [{
-        url: 'stun:stun.l.google.com:19302'
-    }]
+function onSuccess() {
 };
-// RTCPeerConnection
-let pc;
-// RTCDataChannel
-let dataChannel;
 
-// Wait for Scaledrone signalling server to connect
+function onError(error) {
+    console.error(error);
+};
+
 drone.on('open', error => {
     if (error) {
         return console.error(error);
@@ -44,146 +60,189 @@ drone.on('open', error => {
     room = drone.subscribe(roomName);
     room.on('open', error => {
         if (error) {
-            return console.error(error);
+            onError(error);
         }
-        console.log('Connected to signaling server');
     });
-    // We're connected to the room and received an array of 'members'
-    // connected to the room (including us). Signaling server is ready.
+    // list person
+    // connect to room
     room.on('members', members => {
-        if (members.length >= 3) {
-            return alert('The room is full');
-        }
-        // If we are the second user to connect to the room we will be creating the offer
+        console.log('MEMBERS', members);
         const isOfferer = members.length === 2;
-        startWebRTC(isOfferer);
+        initialize(isOfferer);
     });
 });
 
-// Send signaling data via Scaledrone
-function sendSignalingMessage(message) {
+function send(message) {
     drone.publish({
         room: roomName,
         message
     });
 }
 
-function startWebRTC(isOfferer) {
-    console.log('Starting WebRTC in as', isOfferer ? 'offerer' : 'waiter');
-    pc = new RTCPeerConnection(configuration);
+var input = document.getElementById("messageInput");
 
-    // 'onicecandidate' notifies us whenever an ICE agent needs to deliver a
-    // message to the other peer through the signaling server
-    pc.onicecandidate = event => {
+function initialize(isOfferer) {
+
+    peerConnection = new RTCPeerConnection(configuration, {
+        optional: [{
+            RtpDataChannels: true
+        }]
+    });
+
+    // Setup ice handling
+    peerConnection.onicecandidate = event => {
         if (event.candidate) {
-            sendSignalingMessage({'candidate': event.candidate});
+            send({'candidate': event.candidate});
         }
     };
 
+    dataChannel = peerConnection.createDataChannel("dataChannel", {
+        reliable: true
+    });
+
 
     if (isOfferer) {
-        // If user is offerer let them create a negotiation offer and set up the data channel
-        pc.onnegotiationneeded = () => {
-            pc.createOffer(localDescCreated, error => console.error(error));
-        }
-        dataChannel = pc.createDataChannel('chat');
-        setupDataChannel();
-    } else {
-        // If user is not the offerer let wait for a data channel
-        pc.ondatachannel = event => {
-            dataChannel = event.channel;
-            setupDataChannel();
+        peerConnection.onnegotiationneeded = () => {
+            peerConnection.createOffer().then(localDescCreated).catch(onError);
         }
     }
 
-    startListentingToSignals();
-}
-
-function startListentingToSignals() {
-    // Listen to signaling data from Scaledrone
+    // display remote stream in #remoteVideo
+    peerConnection.ontrack = event => {
+        const stream = event.streams[0];
+        if (!remoteVideo.srcObject || remoteVideo.srcObject.id !== stream.id) {
+            remoteVideo.srcObject = stream;
+        }
+    };
+    /*
+            navigator.mediaDevices.getUserMedia({
+              audio: true,
+              video: true,
+            }).then(stream => {
+              // show your local video #localVideo
+              localVideo.srcObject = stream;
+              // add your thread to the peer
+              stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+            }, onError);
+    */
     room.on('data', (message, client) => {
-        // Message was sent by us
         if (client.id === drone.clientId) {
             return;
         }
+
         if (message.sdp) {
-            // This is called after receiving an offer or answer from another peer
-            pc.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
-                console.log('pc.remoteDescription.type', pc.remoteDescription.type);
-                // When receiving an offer lets answer it
-                if (pc.remoteDescription.type === 'offer') {
-                    console.log('Answering offer');
-                    pc.createAnswer(localDescCreated, error => console.error(error));
+            // called after receiving a proposal or response from another user
+            peerConnection.setRemoteDescription(new RTCSessionDescription(message.sdp), () => {
+                // upon receipt of the offer, we respond to it
+                if (peerConnection.remoteDescription.type === 'offer') {
+                    peerConnection.createAnswer().then(localDescCreated).catch(onError);
                 }
-            }, error => console.error(error));
+            }, onError);
         } else if (message.candidate) {
-            // Add the new ICE candidate to our connections remote description
-            pc.addIceCandidate(new RTCIceCandidate(message.candidate));
+            // add new ICE candidate to remote connection description
+            peerConnection.addIceCandidate(
+                new RTCIceCandidate(message.candidate), onSuccess, onError
+            );
         }
     });
-}
 
-function localDescCreated(desc) {
-    pc.setLocalDescription(
-        desc,
-        () => sendSignalingMessage({'sdp': pc.localDescription}),
-        error => console.error(error)
-    );
-}
 
-// Hook up data channel event handlers
-function setupDataChannel() {
-    checkDataChannelState();
-    dataChannel.onopen = checkDataChannelState;
-    dataChannel.onclose = checkDataChannelState;
-    dataChannel.onmessage = event =>
+    dataChannel.onmessage = function (event) {
         insertMessageToDOM(JSON.parse(event.data), false)
-}
+    };
 
-function checkDataChannelState() {
-    console.log('WebRTC channel state is:', dataChannel.readyState);
-    if (dataChannel.readyState === 'open') {
-        insertMessageToDOM({content: 'WebRTC data channel is now open'});
-    }
+    dataChannel.onclose = function () {
+        console.log("data channel is closed");
+    };
 }
 
 function insertMessageToDOM(options, isFromMe) {
+    console.info("Output message data in html");
     const template = document.querySelector('template[data-template="message"]');
     const nameEl = template.content.querySelector('.message__name');
-    if (options.emoji || options.name) {
+
+    if (options.name) {
         nameEl.innerText = options.emoji + ' ' + options.name;
     }
+    console.info("Add User name and emoji to Message");
     template.content.querySelector('.message__bubble').innerText = options.content;
+    console.info("Add content message");
     const clone = document.importNode(template.content, true);
     const messageEl = clone.querySelector('.message');
+
     if (isFromMe) {
         messageEl.classList.add('message--mine');
+        console.info("Imaging my message");
     } else {
         messageEl.classList.add('message--theirs');
+        console.info("Imaging opponent message");
     }
-
     const messagesEl = document.querySelector('.messages');
     messagesEl.appendChild(clone);
 
     // Scroll to bottom
     messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
+    console.log(options.name + ": " + options.content);
 }
 
-const form = document.querySelector('form');
-form.addEventListener('submit', () => {
-    const input = document.querySelector('input[type="text"]');
-    const value = input.value;
-    input.value = '';
+function createVideo() {
+    navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+    }).then(stream => {
+        // show your local video #localVideo
+        localVideo.srcObject = stream;
+        // add your thread to the peer
+        stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+    }, onError);
+}
+
+function localDescCreated(desc) {
+    peerConnection.setLocalDescription(
+        desc,
+        () => send({'sdp': peerConnection.localDescription}),
+        onError
+    );
+}
+
+//Modify
+function insertMessageToController(options, isFromMe) {
+    $.ajax({
+        type: "POST",
+        url: "/api/getMessage",
+        data: {
+            myMsg: {
+                "name": options.name,
+                "content": options.content,
+                "emoji": options.emoji,
+                "isFromMe": isFromMe
+            }
+        },
+        success: function (response) {
+            // do something ...
+            console.log("insertMessageToController success!")
+        },
+        error: function (e) {
+            alert('Error: ' + e);
+        }
+    });
+
+}
+
+function sendMessage() {
+    console.log(name, ": ", input.value);
 
     const data = {
         name,
-        content: value,
+        content: input.value,
         emoji,
     };
-
+    input.value = "";
     dataChannel.send(JSON.stringify(data));
+    console.info("Send json data message to another client");
 
     insertMessageToDOM(data, true);
-});
+    // insertMessageToController(data, true);
+    console.info("Send data to output in html");
 
-insertMessageToDOM({content: 'Chat URL is ' + location.href});
+}

@@ -264,17 +264,19 @@
 
     function randomEmoji() {
         var randomIndex = Math.floor(Math.random() * possibleEmojis.length);
+        console.info("Create random emoji");
         return possibleEmojis[randomIndex];
     }
 
     // Random room
     let name = $("#name").html();
+    console.info("Get name user");
 
     if (!location.hash) {
       location.hash = name.toString();
     }
     const roomHash = location.hash;
-
+    console.info("Create roomHash user");
 
     const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
     const roomName = 'observable-' + roomHash;
@@ -396,27 +398,32 @@
     }
 
     function insertMessageToDOM(options, isFromMe) {
+        console.info("Output message data in html");
         const template = document.querySelector('template[data-template="message"]');
         const nameEl = template.content.querySelector('.message__name');
 
         if (options.name) {
             nameEl.innerText = options.emoji + ' ' + options.name;
         }
+        console.info("Add User name and emoji to Message");
         template.content.querySelector('.message__bubble').innerText = options.content;
+        console.info("Add content message");
         const clone = document.importNode(template.content, true);
         const messageEl = clone.querySelector('.message');
 
         if (isFromMe) {
             messageEl.classList.add('message--mine');
+            console.info("Imaging my message");
         } else {
             messageEl.classList.add('message--theirs');
+            console.info("Imaging opponent message");
         }
         const messagesEl = document.querySelector('.messages');
         messagesEl.appendChild(clone);
 
         // Scroll to bottom
         messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
-        // console.log(options.name + ": " + options.content);
+        console.log(options.name + ": " + options.content);
     }
 
     function createVideo() {
@@ -449,8 +456,10 @@
         };
         input.value = "";
         dataChannel.send(JSON.stringify(data));
+        console.info("Send json data message to another client");
 
         insertMessageToDOM(data, true);
+        console.info("Send data to output in html");
     }
 </script>
 

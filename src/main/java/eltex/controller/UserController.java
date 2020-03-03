@@ -3,6 +3,7 @@ package eltex.controller;
 import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.DeclareError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,8 +25,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/get_users")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
+    /**
+     * Поле побявления переменной для логгирования
+     */
+    private static final Logger log = Logger.getLogger(UserController.class.getName());
+    /**
+     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     */
     @Autowired
     private UserRepository userRepository;
+
     /**
      * Метод вывода списка пользователей по ссылке  <b>/get_users</b>
      *
@@ -33,11 +42,15 @@ public class UserController {
      */
     @GetMapping
     public String getUsers(Model model) {
+        if (log.isDebugEnabled()) {
+            log.debug("getUsers is executed!");
+        }
         List<User> users = userRepository.findAll();
+        log.info("Users successfully received");
         model.addAttribute("users", users);
+        log.info("Users sent successfully to html");
         return "user/userList";
     }
-
     /**
      * Метод для изменения данных полей пользователя,
      * а также добавление или удаление нужных для него прав.
@@ -49,10 +62,17 @@ public class UserController {
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") Long id) {
+        if (log.isDebugEnabled()) {
+            log.debug("getUsers is executed!");
+        }
         User user = userRepository.findById(id);
-        if (user == null)
+        log.info("User by id was received");
+        if (user == null) {
+            log.info("User redefined to 404 error page");
             return "/errors/404";
+        }
         user.setUsername(username);
+        log.info("Username changed");
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
@@ -64,9 +84,9 @@ public class UserController {
                 user.getRoles().add(Role.valueOf(key));
             }
         }
-
+        log.info("User role changes");
         userRepository.save(user);
-
+        log.info("User saved");
         return "redirect:/get_users";
     }
     /**
@@ -79,11 +99,19 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public String userData(@PathVariable("id") Long id, Model model) {
+        if (log.isDebugEnabled()) {
+            log.debug("userData is executed!");
+        }
         User user = userRepository.findById(id);
-        if (user == null)
+        log.info("User by id was received");
+        if (user == null) {
+            log.info("User redefined to 404 error page");
             return "/errors/404";
+        }
         model.addAttribute("user", user);
+        log.info("User sent successfully to html");
         model.addAttribute("roles", Role.values());
+        log.info("Roles sent successfully to html");
         return "user/userEdit";
     }
 

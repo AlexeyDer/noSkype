@@ -4,12 +4,8 @@
 # docker pull ubuntu
 # docker pull openjdk
 # docker pull gradle
-# docker pull mysql:5.6
 
-
-gradle build -x test
-
-gradle BootJar
+docker pull mysql:5.6
 
 docker run --name mysql-standalone4 -e MYSQL_ROOT_PASSWORD=1111 -e MYSQL_DATABASE=noSkype -e MYSQL_USER=root -e MYSQL_PASSWORD=1111 -d mysql:5.6
 

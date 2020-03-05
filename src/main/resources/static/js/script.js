@@ -205,30 +205,6 @@ function localDescCreated(desc) {
     );
 }
 
-//Modify
-function insertMessageToController(options, isFromMe) {
-    $.ajax({
-        type: "POST",
-        url: "/api/getMessage",
-        data: {
-            myMsg: {
-                "name": options.name,
-                "content": options.content,
-                "emoji": options.emoji,
-                "isFromMe": isFromMe
-            }
-        },
-        success: function (response) {
-            // do something ...
-            console.log("insertMessageToController success!")
-        },
-        error: function (e) {
-            alert('Error: ' + e);
-        }
-    });
-
-}
-
 function sendMessage() {
     console.log(name, ": ", input.value);
 
@@ -242,7 +218,6 @@ function sendMessage() {
     console.info("Send json data message to another client");
 
     insertMessageToDOM(data, true);
-    // insertMessageToController(data, true);
     console.info("Send data to output in html");
 
 }

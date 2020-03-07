@@ -6,8 +6,8 @@ spring:
     cache: false
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost/noSkype
+    url: jdbc:mysql://mysql-standalone4:3306/noSkype
     username: root
-    password:
+    password: 1111

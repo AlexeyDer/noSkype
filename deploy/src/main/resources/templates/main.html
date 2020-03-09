@@ -1,0 +1,263 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+    <title>noSkype</title>
+    <div th:replace="fragments/header :: header-css"/>
+    <style>
+        body {
+            /*display: block;*/
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 16px;
+            height: 100vh;
+        }
+
+        video_two {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            align-items: center;
+            justify-content: center;
+            padding: 0 50px;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        video {
+            max-width: calc(50% - 100px);
+            margin: 0 50px;
+            box-sizing: border-box;
+            border-radius: 2px;
+            padding: 0;
+            box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
+        }
+
+        .content {
+            max-width: 1170px;
+            margin: auto;
+            box-shadow: rgba(156, 172, 172, 0.2) 0px 2px 2px, rgba(156, 172, 172, 0.2) 0px 4px 4px, rgba(156, 172, 172, 0.2) 0px 8px 8px, rgba(156, 172, 172, 0.2) 0px 16px 16px, rgba(156, 172, 172, 0.2) 0px 32px 32px, rgba(156, 172, 172, 0.2) 0px 64px 64px;
+            border-radius: 3px;
+            height: 100vh;
+            max-height: 600px;
+            width: 100vw;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .messages {
+            flex-grow: 1;
+            padding: 20px 30px;
+            height: 485px;
+            overflow-y: auto;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message--mine {
+            align-items: flex-end;
+        }
+
+        .message--theirs {
+            align-items: flex-start;
+        }
+
+        .message__name {
+            padding: 10px 0;
+        }
+
+        .message__bubble {
+            padding: 20px;
+            border-radius: 3px;
+        }
+
+        .message--theirs .message__bubble {
+            background: #6363bf;
+            color: white;
+        }
+
+        .message--mine .message__bubble {
+            background: rgba(156, 172, 172, 0.2);
+        }
+
+        .footer {
+            line-height: 76px;
+            border-top: 1px solid rgba(156, 172, 172, 0.2);
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        input {
+            height: 76px;
+            border: none;
+            flex-grow: 1;
+            padding: 0 30px;
+            font-size: 16px;
+            background: transparent;
+        }
+
+        button {
+            border: none;
+            background: transparent;
+            padding: 0 30px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .headind_srch {
+            padding: 5px;
+            overflow: hidden;
+            border-bottom: 1px solid #c4c4c4;
+        }
+
+        .recent_heading h4 {
+            color: #05728f;
+            font-size: 21px;
+            margin: auto;
+        }
+
+        .srch_bar input {
+            border: 1px solid #cdcdcd;
+            border-width: 0 0 1px 0;
+            width: 80%;
+            padding: 2px 0 4px 6px;
+            background: none;
+        }
+
+        .srch_bar .input-group-addon button {
+            background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+            border: medium none;
+            padding: 0;
+            color: #707070;
+            font-size: 10px;
+        }
+
+        .srch_bar .input-group-addon {
+            margin: 0 0 0 -27px;
+        }
+
+        .inbox_people {
+            background: #f8f8f8 none repeat scroll 0 0;
+            float: left;
+            overflow: hidden;
+            width: 25%;
+            border-right: 1px solid #c4c4c4;
+        }
+
+        .chat_ib h5 {
+            font-size: 15px;
+            color: #464646;
+            margin: 0 0 8px 0;
+        }
+
+        .chat_ib h5 span {
+            font-size: 13px;
+            float: right;
+        }
+
+        .chat_ib p {
+            font-size: 14px;
+            color: #989898;
+            margin: auto
+        }
+
+        .chat_img {
+            float: left;
+            width: 11%;
+        }
+
+        .chat_ib {
+            float: left;
+            padding: 0 0 0 15px;
+            width: 88%;
+        }
+
+        .chat_people {
+            overflow: hidden;
+            clear: both;
+        }
+
+        .chat_list {
+            border-bottom: 1px solid #c4c4c4;
+            margin: 0;
+            padding: 10px 16px;
+        }
+
+        .inbox_chat {
+            height: 512px;
+            overflow-y: scroll;
+        }
+
+        .active_chat {
+            background: #ebebeb;
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="content">
+    <div class="inbox_msg">
+        <div class="inbox_people">
+            <div class="headind_srch">
+                <div class="srch_bar">
+                    <div class="stylish-input-group">
+                        <form th:action="@{/main}" th:method="post">
+                            <input id="searchUsername" th:name="searchUsername" onclick="getListUsers()" th:type="text"
+                                   class="search-bar" placeholder="Search"/>
+                        </form>
+                        <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="!${error}">
+                <div class="inbox_chat">
+                    <div class="chat_list active_chat">
+                        <div class="chat_people">
+                            <div id="users" class="chat_ib">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${error}">
+                <div class="inbox_chat">
+                    <h5 align="center" th:text="${error}"></h5>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick='createVideo()'>video</button>
+        <div class="messages">
+        </div>
+        <form class="footer" onsubmit="return false;">
+            <input id="messageInput" type="text" placeholder="Your message.."/>
+            <button type="submit" onclick='sendMessage()'>Send</button>
+        </form>
+        <template data-template="message">
+            <div th:name="message" class="message">
+                <div th:name="message__name" class="message__name"></div>
+                <div th:name="message__bubble" class="message__bubble"></div>
+            </div>
+        </template>
+    </div>
+</div>
+
+
+<video_two>
+    <video id="localVideo" autoplay="autoplay" muted="muted"></video>
+    <video id="remoteVideo" autoplay="autoplay"></video>
+</video_two>
+
+<div th:replace="fragments/footer :: footer"/>
+<script src = "/static/js/script.js"></script>
+</body>
+</html>

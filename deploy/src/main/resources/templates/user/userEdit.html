@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Editor</title>
+    <style>
+        table th, table td {
+            padding: 5px;
+        }
+    </style>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+<div class="container mt-2">
+    <h1>User Editor</h1>
+
+    <form th:action="@{/get_users}" th:method="post">
+        <label> User Name: <input th:type="text" th:name="username" th:value="${user.username}"> </label>
+        <div th:each="role: ${roles}">
+            <label> <input type="checkbox" th:text="${role}" th:name="${role}"
+                           th:if="${#sets.contains(user.roles, role)}" checked> </label>
+            <label> <input type="checkbox" th:text="${role}" th:name="${role}"
+                           th:unless="${#sets.contains(user.roles, role)}"> </label>
+        </div>
+        <input hidden th:type="text" th:name="userId" th:value="${user.id}">
+        <button type="submit"> Save</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

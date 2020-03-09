@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Registration</title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+
+<div class="container mt-5">
+    <h1>Registration</h1>
+    <div th:if = "${message}" class="alert alert-danger">
+        <p th:text="${message}"/>
+    </div>
+    <form th:action="@{/registration}" method="post">
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> User Name :</label>
+            <div class="col-sm-6">
+                <input type="text" name="username" class="form-control" placeholder="UserName" required autofocus/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password :</label>
+            <div class="col-sm-6">
+                <input type="password" name="password" class="form-control" placeholder="Password" required/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password Confirm :</label>
+            <div class="col-sm-6">
+                <input type="password" name="confirmPassword" class="form-control" placeholder="Password Confirm"
+                       required/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Email :</label>
+            <div class="col-sm-6">
+                <input type="email" name="email" class="form-control" placeholder="Email" required/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Phone :</label>
+            <div class="col-sm-6">
+                <input type="text" name="phone" class="form-control" placeholder="Phone" required/>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Create your account"/>
+        <div class="row mt-2">
+            Already have an account?
+            <a href="/login"> Sign In </a>
+        </div>
+    </form>
+</div>
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

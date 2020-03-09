@@ -7,7 +7,21 @@
 
 Перед Вами web-приложение - чат с возможностью видеозвонка, созданный с помощью технологии **webRTC**.
 
+# Распоковка приложения
+- скачать deploy.zip из раздела релизов
+- разархивировать
+- установить docker.io (sudo apt install docker.io)
+- запустить docker.sh
+
+
+- остановить докер "docker stop spring-rest-service-0.1.0"
+- удалить докеры
+- chmod +x dockerRm.sh
+- sh dockerRm.sh
+
+# Если через  команду "git clone"
 Перед запуском
+- gradle build && gradle bootJar (gradle версии 4.10 и выше)
 - chmod +x run.sh
 - sh run.sh
 

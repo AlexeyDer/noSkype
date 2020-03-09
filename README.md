@@ -5,14 +5,19 @@
 ![Image](https://www.matt-thornton.net/wordpress/wp-content/uploads/0dd7193f-e747-4a15-b797-818b9fac3656-mysql.png)
 ![Image](https://d1q6f0aelx0por.cloudfront.net/product-logos/644d2f15-c5db-4731-a353-ace6235841fa-registry.png)
 
-## Перед Вами web-приложение - чат с возможностью видеозвонка, созданный с помощью технологии **webRTC**.
+# Перед Вами web-приложение - чат с возможностью видеозвонка, созданный с помощью технологии **webRTC**.
 
 ## Перед сборкой и запуском программы необходимо:
 * В **application.yml**, который находиться **в папке main** указать путь к вашей базе данных и пароль для входа
 * Также необходимо сделать во втором файле **application.yml**, который находиться **в папке test** и указать путь к тестовой базе данных,
 чтобы сборка проходила с тестированием 
 
-### Сборка программы
+## Настройка **nginx** для установки **https**
+```
+- chmod +x run.sh
+- sh run.sh
+```
+# Сборка программы
 С тестированием
 ```
 gradle build
@@ -21,23 +26,24 @@ gradle build
 ```
 gradle build -x test
 ```
-### Создания файла .jar
+# Создания файла .jar
 ```
 gradle bootJar
 ```
-### Запуск программы
+# Запуск программы
 ```
 gradle bootRun
 ```
-
-### Перед запуском необходимо 
-- chmod +x run.sh
-- sh run.sh
-
-Безопасный запуск приложения из docker-а:
+## Безопасный запуск приложения из docker-а:
+```
 - chmod +x docker.sh
 - sh docker.sh
-
-Удалить все образы можно с помощью:
+```
+## Удалить все образы можно с помощью:
+```
 - chmod +x dockerRm.sh
 - sh dockerRm.sh
+```
+### Команда проекта: 
+* Alexey Derevtsov - Team Leader
+* Victoria Gatsulia - Developer 

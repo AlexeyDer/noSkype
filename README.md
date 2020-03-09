@@ -41,6 +41,7 @@ gradle bootRun
 - разархивировать
 - установить docker.io (sudo apt install docker.io)
 - запустить docker.sh (chmod +x docker.sh && sudo sh docker.sh)
+- запустить run.sh (chmod +x run.sh && sudo sh run.sh)
 
 - остановить докер "docker stop spring-rest-service-0.1.0"
 - удалить докеры

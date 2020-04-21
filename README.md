@@ -56,3 +56,6 @@ gradle bootRun
 ### Команда проекта:
 * Alexey Derevtsov - Team Leader
 * Victoria Gatsulia - Developer
+
+more information in [WIKI](https://github.com/AlexeyDer/noSkype/wiki)
+

@@ -52,15 +52,15 @@ public class MainControllerTest {
     /**
      * Метод тестирующий поиск пользователей и переход на иъ реферальную ссылку
      */
-    @Test
-    @WithMockUser(username = "u")
-    public void searchUsers() throws Exception {
-        this.mockMvc.perform(post("/main").with(csrf())
-                .param("searchUsername", "u"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/main#u"));
-    }
+//    @Test
+//    @WithMockUser(username = "u")
+//    public void searchUsers() throws Exception {
+//        this.mockMvc.perform(post("/main").with(csrf())
+//                .param("searchUsername", "u"))
+//                .andDo(print())
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(redirectedUrl("/main#u"));
+//    }
     /**
      * Метод тестирующий поиск пользователей, указывая что пользователя с данным именем не существует
      */

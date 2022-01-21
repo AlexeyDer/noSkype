@@ -8,6 +8,6 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:mysql://localhost/noSkypeTest
+    url: jdbc:mysql://localhost:3306/noSkypeTest
     username: root
     password:

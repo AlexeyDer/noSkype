@@ -1,5 +1,12 @@
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:keystore/baeldung.p12
+    key-store-password: 123456
+    key-alias: baeldung
+    enabled: true
+
 spring:
   thymeleaf:
     prefix: file:src/main/resources/templates/
@@ -8,6 +15,6 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://mysql-standalone4:3306/noSkype
+    url: jdbc:mysql://localhost:3306/noSkype
     username: root
-    password: 1111
+    password:

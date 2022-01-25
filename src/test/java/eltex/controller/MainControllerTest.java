@@ -1,7 +1,5 @@
 package eltex.controller;
 
-
-import eltex.controller.WebController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

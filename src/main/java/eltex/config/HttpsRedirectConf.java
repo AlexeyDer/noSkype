@@ -8,7 +8,12 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * Класс, который перенаправляет http запросы на https
+ *
+ * @author "Alexey Derevtsov"
+ * @version 1.0.0
+ */
 @Configuration
 public class HttpsRedirectConf {
     private final static String SECURITY_USER_CONSTRAINT = "CONFIDENTIAL";

@@ -1,24 +1,22 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
-    }
+plugins {
+    id 'org.springframework.boot' version '2.6.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'idea'
+    id "org.sonarqube" version "3.3"
 }
 
-// Конфигурация для devtools dependency
-configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
-    }
-}
+group = 'ru.noSkype'
+version = '0.1.0'
+sourceCompatibility = '11'
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+//// Конфигурация для devtools dependency
+//configurations {
+//    developmentOnly
+//    runtimeClasspath {
+//        extendsFrom developmentOnly
+//    }
+//}
 
 bootJar {
     baseName = 'spring-rest-service'
@@ -29,10 +27,8 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 dependencies {
+    implementation 'junit:junit:4.13.1'
     compile("org.springframework.boot:spring-boot-starter-web") {
         // Исключаем зависимсость
         exclude module: "spring-boot-starter-loggin"
@@ -58,11 +54,15 @@ dependencies {
     compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
 
 //    ----------------------------------------------------------------------
-    compile("org.springframework.boot:spring-boot-devtools")
+//    compile("org.springframework.boot:spring-boot-devtools")
     //    ----------------------------------------------------------------------
 //                              WEBsocket
 //    ----------------------------------------------------------------------
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket', version: '2.6.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '2.6.2'
 
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }

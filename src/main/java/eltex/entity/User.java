@@ -3,7 +3,6 @@ package eltex.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -37,7 +36,6 @@ public class User extends AbstractUser {
      * Поле телефона пользователя
      */
     private String phone;
-
 
     public User(String u, String p) {
         super(u, p);

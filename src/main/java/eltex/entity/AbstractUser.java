@@ -18,7 +18,6 @@ import javax.persistence.MappedSuperclass;
  * @version 1.0.0
  */
 
-
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor

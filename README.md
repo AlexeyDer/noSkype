@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/AlexeyDer/noSkype.svg?branch=release)](https://travis-ci.com/AlexeyDer/noSkype)
+[![Build Status](https://app.travis-ci.com/AlexeyDer/noSkype.svg?branch=master)](https://app.travis-ci.com/AlexeyDer/noSkype)
 # noSkype
 ![Image](https://hsto.org/webt/5b/22/62/5b2262cea66f9381421890.png)
 ![Image](https://cdn.iconscout.com/icon/free/png-256/gradle-3-1175026.png)
@@ -27,7 +27,7 @@ gradle build -x test
 ```
 gradle bootJar
 ```
-# Запуск программы 
+# Запуск программы
 ```
 gradle bootRun
 ```

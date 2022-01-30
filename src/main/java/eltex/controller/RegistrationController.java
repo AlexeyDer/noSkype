@@ -20,11 +20,15 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     /**
-     * Поле побявления переменной для логгирования
+     * Поле объявления переменной для логирования
      */
     private static final Logger log = Logger.getLogger(RegistrationController.class.getName());
     /**
-     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     * Поле адреса страницы регистрации
+     */
+    private static final String URL_REGISTRATION_ADDRESS = "registration";
+    /**
+     * Поле подключения репозитория для взаимодействия пользователя с бд
      */
     @Autowired
     private UserRepository userRepository;
@@ -41,7 +45,7 @@ public class RegistrationController {
         if(log.isDebugEnabled()){
             log.debug("RegistrationContoller is executed!");
         }
-        return "registration";
+        return URL_REGISTRATION_ADDRESS;
     }
     /**
      * Метод для добавления пользователей в базу данных
@@ -56,13 +60,13 @@ public class RegistrationController {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             model.put("message", "Passwords isn't equals!");
             log.info("Password isn't equals!");
-            return "registration";
+            return URL_REGISTRATION_ADDRESS;
         }
 
         if (userFromDb != null) {
             model.put("message", "Person exists!");
             log.info("User not found in DB!");
-            return "registration";
+            return URL_REGISTRATION_ADDRESS;
         }
 
         userService.registNewUser(user, false);

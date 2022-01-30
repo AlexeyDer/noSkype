@@ -54,6 +54,7 @@ public class RegistrationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("registration"));
     }
+
     /**
      * Метод проверяет ввод коректных данных на странице регистрации
      */
@@ -69,6 +70,7 @@ public class RegistrationControllerTest {
                 .andExpect(redirectedUrl("/login"));
 
     }
+
     /**
      * Метод проверяет ввод не совпадающих паролей на странице регистрации
      */
@@ -85,6 +87,7 @@ public class RegistrationControllerTest {
                 .andExpect(status().isOk());
 
     }
+
     /**
      * Метод проверяет, что пользователь с таким же username, который есть в бд, не может быть создан
      */

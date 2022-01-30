@@ -1,5 +1,8 @@
 package eltex.controller;
 
+import eltex.entity.User;
+import eltex.service.UserService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +24,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Класс для тестирования главнной страницы
  *
- *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
- *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithMockUser("usr")
 public class MainControllerTest {
+
+    @Autowired
+    private UserService userService;
+
     @Autowired
     private WebController controller;
 
@@ -40,6 +45,11 @@ public class MainControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Before
+    public void setUp() {
+        userService.registNewUser(new User("u", "p"), false);
+    }
+
     @Test
     public void getMainPage() throws Exception {
         this.mockMvc.perform(get("/main"))
@@ -47,23 +57,23 @@ public class MainControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("main"));
     }
+
     /**
      * Метод тестирующий поиск пользователей и переход на реферальную ссылку
      */
     @Test
-    @WithMockUser(username = "u")
     public void searchUsers() throws Exception {
         this.mockMvc.perform(post("/main").with(csrf())
-                .param("searchUsername", "usr"))
+                .param("searchUsername", "u"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/main#usr"));
+                .andExpect(redirectedUrl("/main#u"));
     }
+
     /**
      * Метод тестирующий поиск пользователей, указывая что пользователя с данным именем не существует
      */
     @Test
-    @WithMockUser(username = "u")
     public void searchUsersError() throws Exception {
         this.mockMvc.perform(post("/main").with(csrf())
                 .param("searchUsername", "user"))
@@ -72,6 +82,7 @@ public class MainControllerTest {
                 .andExpect(model().attribute("error", "Not found"))
                 .andExpect(MockMvcResultMatchers.view().name("main"));
     }
+
     /**
      * Метод проверяет отбображение имени пользователя в панели навигации
      * после входа в систему
@@ -89,8 +100,9 @@ public class MainControllerTest {
      */
     @Test
     public void contexLoads() throws Exception {
-       assertThat(controller).isNotNull();
+        assertThat(controller).isNotNull();
     }
+
     /**
      * Метод для тестирования контроллера главной страницы
      */

@@ -38,6 +38,9 @@ public class LoginTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Метод настройки класса тестирования, который добавляет пользователя
+     */
     @Before
     public void setUp() {
         userService.registNewUser(new User("u", "p"), false);

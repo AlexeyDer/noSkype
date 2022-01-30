@@ -9,6 +9,6 @@ before_install:
   - sudo apt-get update
 
 script:
-    - ./gradlew build && ./gradlew bootJar && ./gradlew bootRun
+    - ./gradlew build && ./gradlew bootJar
 
 

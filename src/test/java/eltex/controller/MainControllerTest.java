@@ -48,17 +48,17 @@ public class MainControllerTest {
                 .andExpect(MockMvcResultMatchers.view().name("main"));
     }
     /**
-     * Метод тестирующий поиск пользователей и переход на иъ реферальную ссылку
+     * Метод тестирующий поиск пользователей и переход на реферальную ссылку
      */
-//    @Test
-//    @WithMockUser(username = "u")
-//    public void searchUsers() throws Exception {
-//        this.mockMvc.perform(post("/main").with(csrf())
-//                .param("searchUsername", "u"))
-//                .andDo(print())
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/main#u"));
-//    }
+    @Test
+    @WithMockUser(username = "u")
+    public void searchUsers() throws Exception {
+        this.mockMvc.perform(post("/main").with(csrf())
+                .param("searchUsername", "usr"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/main#usr"));
+    }
     /**
      * Метод тестирующий поиск пользователей, указывая что пользователя с данным именем не существует
      */

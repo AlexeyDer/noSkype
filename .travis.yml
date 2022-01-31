@@ -10,6 +10,6 @@ before_install:
   - mysql -e 'CREATE DATABASE noSkypeTest;'
 
 script:
-    - ./gradlew build --scan -s && ./gradlew bootJar
+    - ./gradlew build && ./gradlew bootJar
 
 

@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Класс для тестирования главнной страницы
+ * Класс для тестирования главной страницы
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
@@ -84,7 +84,7 @@ public class MainControllerTest {
     }
 
     /**
-     * Метод проверяет отбображение имени пользователя в панели навигации
+     * Метод проверяет отображение имени пользователя в панели навигации
      * после входа в систему
      */
     @Test
@@ -96,7 +96,7 @@ public class MainControllerTest {
     }
 
     /**
-     * Метод для тестирования контроллера страницы приветсвия
+     * Метод для тестирования контроллера страницы приветствия
      */
     @Test
     public void contexLoads() throws Exception {

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 /**
  * Интеграционные тесты показывающие базовое использование {@link UserRepository}
  *
@@ -25,11 +26,13 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     User user, userTwo;
+
     @Before
     public void setUp() {
         user = new User("name", "pass");
         userTwo = new User("name1", "pass");
     }
+
     /**
      * Метод тестирует поиск пользователя по его имени
      */

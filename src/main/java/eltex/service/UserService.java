@@ -1,6 +1,5 @@
 package eltex.service;
 
-import eltex.controller.RegistrationController;
 import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
@@ -11,10 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+
 /**
- * Сервис класс для проведение опереций свзязанных с базой данных.
+ * Сервис класс для проведение операций связанных с базой данных.
  * Работает с транзакциями
  *
  * @author "Alexey Derevtsov"
@@ -24,11 +22,11 @@ import java.util.Set;
 @Transactional
 public class UserService {
     /**
-     * Поле побявления переменной для логгирования
+     * Поле объявления переменной для логирования
      */
     private static final Logger log = Logger.getLogger(UserService.class.getName());
     /**
-     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     * Поле подключения репозитория для взаимодействия пользователя с бд
      */
     @Autowired
     private UserRepository userRepository;
@@ -37,8 +35,10 @@ public class UserService {
      */
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     /**
      * Метод регастрации нового пользователя, с ролью админ по выбору
+     *
      * @return true если пользователь создан, false если такой пользователь уже существует
      */
     public boolean registNewUser(User user, boolean isAdmin) {

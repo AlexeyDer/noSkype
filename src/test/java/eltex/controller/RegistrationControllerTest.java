@@ -45,7 +45,7 @@ public class RegistrationControllerTest {
     }
 
     /**
-     * Метод проверяет имя атрибута, который возращается этой функцией
+     * Метод проверяет имя атрибута, который возвращается этой функцией
      */
     @Test
     public void registrationGet() throws Exception {
@@ -56,7 +56,7 @@ public class RegistrationControllerTest {
     }
 
     /**
-     * Метод проверяет ввод коректных данных на странице регистрации
+     * Метод проверяет ввод корректных данных на странице регистрации
      */
     @Test
     public void addUser() throws Exception {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.Map;
 
 /**
- * Котроллер для регестрации
+ * Контроллер для регистрации
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
@@ -37,16 +37,18 @@ public class RegistrationController {
      */
     @Autowired
     private UserService userService;
+
     /**
-     * Метод @return страницу регестрации
+     * Метод @return страницу регистрации
      */
     @GetMapping("/registration")
     public String registration() {
-        if(log.isDebugEnabled()){
-            log.debug("RegistrationContoller is executed!");
+        if (log.isDebugEnabled()) {
+            log.debug("RegistrationController is executed!");
         }
         return URL_REGISTRATION_ADDRESS;
     }
+
     /**
      * Метод для добавления пользователей в базу данных
      *

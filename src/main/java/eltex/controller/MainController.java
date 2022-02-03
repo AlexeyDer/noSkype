@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 /**
- * Котроллер главной страницы программы
+ * Контроллер главной страницы программы
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
@@ -20,27 +21,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/main")
 public class MainController {
     /**
-     * Поле побявления переменной для логгирования
+     * Поле объявления переменной для логирования
      */
     private static final Logger log = Logger.getLogger(MainController.class.getName());
     /**
-     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     * Поле подключения репозитория для взаимодействия пользователя с бд
      */
     @Autowired
     private UserRepository userRepository;
+
     /**
      * Метод @return главную страницу программы
      */
     @GetMapping
     public String getMainPage(Model model) {
-        if(log.isDebugEnabled()){
+        if (log.isDebugEnabled()) {
             log.debug("MainController is executed!");
         }
         return "main";
     }
+
     /**
-     * Метод
-     * @return возвращяет главную страницу программы с индификатором пользователя,
+     * Метод поиска пользователя для дальнейшего общения с ним
+     *
+     * @return возвращает главную страницу программы с идентификатором пользователя,
      * с которым мы хотим связаться
      */
     @PostMapping

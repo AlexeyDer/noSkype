@@ -19,7 +19,6 @@ import javax.sql.DataSource;
  * @author "Alexey Derevtsov"
  * @version 1.0.0
  */
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -29,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     private DataSource dataSource;
+
     /**
      * Метод который разрешает или запрещает доступ пользователям с определенными ролями к ссылкам.
      */
@@ -36,20 +36,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/greeting", "/registration", "/errors/**", "/static/**").permitAll()
-                    .antMatchers("/get_users", "/get_users/{id}", "/api/**").permitAll()
-                    .anyRequest().authenticated()
+                .antMatchers("/", "/greeting", "/registration", "/errors/**", "/static/**").permitAll()
+                .antMatchers("/get_users", "/get_users/{id}", "/api/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
                 .and()
-                    .logout()
-                    .permitAll()
-                    .logoutSuccessUrl("/");
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/");
     }
+
     /**
-     * Метод делает выборку из бд проверяя наличие пользователя с именем, которое пытаются ввести при регестрации,
+     * Метод делает выборку из бд проверяя наличие пользователя с именем, которое пытаются ввести при регистрации,
      * А также выполняет авторизацию с определенным именем пользователя
      */
     @Override
@@ -60,8 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select username, password, active from user where username=?")
                 .authoritiesByUsernameQuery("select u.username, ur.roles from user u inner join user_role ur on u.id = ur.user_id where u.username=?");
     }
+
     /**
-     * Метод для кодирования пороля пользователя
+     * Метод для кодирования пароля пользователя
+     *
      * @return закодированный пароль
      */
     @Bean

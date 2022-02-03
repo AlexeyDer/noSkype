@@ -1,6 +1,5 @@
 package eltex.controller;
 
-import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
 import org.junit.Test;
@@ -16,12 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 import java.util.List;
-import java.util.Map;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource("/application.yml")
 @Sql(value = {"/create.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/delete.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class  UserControllerTest {
+public class UserControllerTest {
     /**
      * Поле для работы с mockMvc
      */
@@ -65,7 +60,7 @@ public class  UserControllerTest {
     }
 
     /**
-     * Метод тестирующий получинение списка пользователя админом
+     * Метод тестирующий получения списка пользователя админом
      */
     @Test
     @WithMockUser(username = "a", password = "p", authorities = "ADMIN")
@@ -84,7 +79,7 @@ public class  UserControllerTest {
 //    @Test
 //    @WithMockUser(username = "a", password = "p", authorities = "ADMIN")
 //    public void userSave() throws Exception {
-//        User user = ur.findById(Long.valueOf(1));
+//        User user = userRepository.findById(Long.valueOf(1));
 //        mockMvc.perform(post("/get_users/{id}", 1).with(csrf())
 //                .param("username", user.getUsername())
 //                .param("userId", user.getId().toString())

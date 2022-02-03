@@ -24,6 +24,7 @@ import java.util.Collections;
 public class UserServiceTest {
     @Autowired
     UserService userService;
+
     /**
      * Метод, который проверяет :
      * * Создается ли пользователь

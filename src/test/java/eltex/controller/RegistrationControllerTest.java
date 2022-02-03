@@ -45,7 +45,7 @@ public class RegistrationControllerTest {
     }
 
     /**
-     * Метод проверяет имя атрибута, который возращается этой функцией
+     * Метод проверяет имя атрибута, который возвращается этой функцией
      */
     @Test
     public void registrationGet() throws Exception {
@@ -54,8 +54,9 @@ public class RegistrationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("registration"));
     }
+
     /**
-     * Метод проверяет ввод коректных данных на странице регистрации
+     * Метод проверяет ввод корректных данных на странице регистрации
      */
     @Test
     public void addUser() throws Exception {
@@ -69,6 +70,7 @@ public class RegistrationControllerTest {
                 .andExpect(redirectedUrl("/login"));
 
     }
+
     /**
      * Метод проверяет ввод не совпадающих паролей на странице регистрации
      */
@@ -85,6 +87,7 @@ public class RegistrationControllerTest {
                 .andExpect(status().isOk());
 
     }
+
     /**
      * Метод проверяет, что пользователь с таким же username, который есть в бд, не может быть создан
      */

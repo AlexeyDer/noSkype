@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/AlexeyDer/noSkype.svg?branch=release)](https://travis-ci.com/AlexeyDer/noSkype)
+[![Build Status](https://app.travis-ci.com/AlexeyDer/noSkype.svg?branch=master)](https://app.travis-ci.com/AlexeyDer/noSkype)
 # noSkype
 ![Image](https://hsto.org/webt/5b/22/62/5b2262cea66f9381421890.png)
 ![Image](https://cdn.iconscout.com/icon/free/png-256/gradle-3-1175026.png)
@@ -11,11 +11,7 @@
 * В **application.yml**, который находиться **в папке main** указать путь к вашей базе данных и пароль для входа
 * Также необходимо сделать во втором файле **application.yml**, который находиться **в папке test** и указать путь к тестовой базе данных,
 чтобы сборка проходила с тестированием
-* Настройка **nginx** для установки **https**
-```
-- chmod +x run.sh
-- sh run.sh
-```
+
 **ВАЖНО!!** Не забыть при входе на сайт включить протокол **https://**,
 а не **http://**, иначе программа не будет передавать изображение
 # Сборка программы

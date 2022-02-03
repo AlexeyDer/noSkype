@@ -4,18 +4,16 @@ import eltex.entity.Role;
 import eltex.entity.User;
 import eltex.repository.UserRepository;
 import org.apache.log4j.Logger;
-import org.aspectj.lang.annotation.DeclareError;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.CacheControl;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.ElementCollection;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,17 +27,17 @@ import java.util.stream.Collectors;
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     /**
-     * Поле побявления переменной для логгирования
+     * Поле объявления переменной для логирования
      */
     private static final Logger log = Logger.getLogger(UserController.class.getName());
     /**
-     * Поле подключения репозитория для взамимодействия пользвателя с бд
+     * Поле подключения репозитория для взаимодействия пользователя с бд
      */
     @Autowired
     private UserRepository userRepository;
 
     /**
-     * Метод вывода списка пользователей по ссылке  <b>/get_users</b>
+     * Метод вывода списка пользователей по ссылке <b>/get_users</b>
      *
      * @return ссылку на список пользователей
      */
@@ -54,6 +52,7 @@ public class UserController {
         log.info("Users sent successfully to html");
         return "user/userList";
     }
+
     /**
      * Метод для изменения данных полей пользователя,
      * а также добавление или удаление нужных для него прав.
@@ -92,13 +91,14 @@ public class UserController {
         log.info("User saved");
         return "redirect:/get_users";
     }
+
     /**
      * Метод позволяющий после ссылки <b>/get_users/</b> по номеру его id
      * получение данных об этом пользователе.
      * Если пользователя с данным id не существует, то выдаст ошибку
      *
-     * @param
-     * @return возвращает на ссылку иззменения пользователя
+     * @param id пользователя
+     * @return возвращает на ссылку изменения пользователя
      */
     @GetMapping("/{id}")
     public String userData(@PathVariable("id") Long id, Model model) {

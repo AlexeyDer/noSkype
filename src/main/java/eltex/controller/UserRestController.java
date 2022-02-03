@@ -10,8 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 /**
- * Rest controller для получения или отправвления пользователей в формате JSON
+ * Rest controller для получения или отправления пользователей в формате JSON
  *
  * @author "Alexey Derevtsov"
  * @version 1.0.0
@@ -20,7 +21,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class UserRestController {
     /**
-     * Поле побявления переменной для логгирования
+     * Поле обявления переменной для логирования
      */
     private static final Logger log = Logger.getLogger(MainController.class.getName());
     /**
@@ -28,8 +29,10 @@ public class UserRestController {
      */
     @Autowired
     UserRepository userRepository;
+
     /**
      * Метод для отправки пользователя, по запросу "{/user/{id}}"
+     *
      * @return данного пользователя или оповещает, что такого пользователя не существует
      */
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -42,16 +45,18 @@ public class UserRestController {
         log.info("Get user request with id: " + id.toString());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     /**
-     * Метод для отправлки списка пользователя по запросу {/user/list}
+     * Метод для отправки списка пользователя по запросу {/user/list}
+     *
      * @return возвращает список пользователей
      */
     @GetMapping("user/list")
     public List<User> getListUsers() {
         List<User> userList = userRepository.findAll();
 
-        for(int i = 0; i < userList.size(); i++) {
-            for (Role r: userList.get(i).getRoles()) {
+        for (int i = 0; i < userList.size(); i++) {
+            for (Role r : userList.get(i).getRoles()) {
                 if (r == Role.ADMIN) {
                     userList.remove(i);
                 }

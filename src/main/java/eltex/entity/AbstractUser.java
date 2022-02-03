@@ -17,23 +17,29 @@ import javax.persistence.MappedSuperclass;
  * @author "Alexey Derevtsov"
  * @version 1.0.0
  */
-
-
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public abstract class AbstractUser {
-    /** Поле идентификатора */
+    /**
+     * Поле идентификатора
+     */
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private Long id;
-    /** Поле имени и логина пользователя */
+    /**
+     * Поле имени и логина пользователя
+     */
     private String username;
-    /** Поле пароля пользователя */
+    /**
+     * Поле пароля пользователя
+     */
     private String password;
-    /** Поле повторного пароля пользователя */
+    /**
+     * Поле повторного пароля пользователя
+     */
     private String confirmPassword;
 
     public AbstractUser(String username, String password) {

@@ -5,12 +5,11 @@ services:
 
 language: java
 
-install: gradle
-
 before_install:
   - sudo apt-get update
+  - mysql -e 'CREATE DATABASE noSkypeTest;'
 
 script:
-    - gradle build -x test && gradle bootJar
+    - ./gradlew build && ./gradlew bootJar
 
 

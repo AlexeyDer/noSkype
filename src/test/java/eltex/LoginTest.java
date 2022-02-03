@@ -1,6 +1,8 @@
 package eltex;
 
-import eltex.controller.WebController;
+import eltex.entity.User;
+import eltex.service.UserService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 /**
  * Интеграционное тестирование страницы авторизации
  *
@@ -25,10 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class LoginTest {
     /**
-     * Поле тестируемого контроллера
+     * Поле подключения сервиса пользователя, с реализацией разной логики
      */
     @Autowired
-    private WebController controller;
+    private UserService userService;
     /**
      * Поле для работы с mockMvc
      */
@@ -36,10 +39,18 @@ public class LoginTest {
     private MockMvc mockMvc;
 
     /**
-     * Через подменненый веб-слой делаем запрос на главную страницу проекта,
+     * Метод настройки класса тестирования, который добавляет пользователя
+     */
+    @Before
+    public void setUp() {
+        userService.registNewUser(new User("u", "p"), false);
+    }
+
+    /**
+     * Через подмененный веб-слой делаем запрос на главную страницу проекта,
      * Выводим результат, который вернул нам сервер
      * Проверяем что код возврата был 200
-     * И проверяем, что в контенте у нас содержиться наша строка "..."
+     * И проверяем, что в контенте у нас содержится наша строка "..."
      */
     @Test
     public void contextLoad() throws Exception {
@@ -53,7 +64,7 @@ public class LoginTest {
      * Указываем адрес странички, который требует авторизации
      * Выводим результат
      * Проверяем, что система ожидает статус отличный от 200-ого
-     * Проверка, что система подкидывает нам нужный адресс /login
+     * Проверка, что система подкидывает нам нужный адрес /login
      */
     @Test
     public void loginTest() throws Exception {
@@ -65,7 +76,7 @@ public class LoginTest {
 
     /**
      * Данный тест смотрит, как мы в контексте определили login page и вызывает обращение к этой страничке.
-     * Проверяем пользователя с коректными данными
+     * Проверяем пользователя с корректными данными
      */
     @Test
     public void correctLogin() throws Exception {
@@ -77,15 +88,13 @@ public class LoginTest {
 
     /**
      * Данный тест смотрит, как мы в контексте определили login page и вызывает обращение к этой страничке.
-     * Проверяем пользователя с некоректными данными, возвращая нас на страничку ошибки входа
+     * Проверяем пользователя с некорректными данными, возвращая нас на страничку ошибки входа
      */
     @Test
-    public void inCorrectLogin() throws Exception {
+    public void incorrectLogin() throws Exception {
         this.mockMvc.perform(formLogin().user("u").password("wdwdwd"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error"));
     }
-
-
 }

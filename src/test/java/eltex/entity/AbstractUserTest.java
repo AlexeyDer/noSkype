@@ -4,8 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collections;
+
 /**
- * Класс для тестирования абстарктного класса AbstractUser
+ * Класс для тестирования абстрактного класса AbstractUser
  * Тестируются геттеры и сеттеры
  *
  * @author "Alexey Derevtsov"

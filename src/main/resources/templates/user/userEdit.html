@@ -16,7 +16,11 @@
     <h1>User Editor</h1>
 
     <form th:action="@{/get_users}" th:method="post">
-        <label> User Name: <input th:type="text" th:name="username" th:value="${user.username}"> </label>
+        <label> User Name: <input th:type="text" th:name="username" th:value="${user.username}"> </label><br>
+<!--        <label> Password <input th:type="text" th:name="password" th:value="${user.password}"> </label><br>-->
+        <label> Email <input th:type="text" th:name="email" th:value="${user.email}"> </label><br>
+        <label> Phone <input th:type="text" th:name="phone" th:value="${user.phone}"> </label><br>
+
         <div th:each="role: ${roles}">
             <label> <input type="checkbox" th:text="${role}" th:name="${role}"
                            th:if="${#sets.contains(user.roles, role)}" checked> </label>

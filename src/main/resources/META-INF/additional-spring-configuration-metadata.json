@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "trust.store.password",
+      "type": "java.lang.String",
+      "description": "Description for trust.store.password."
+  }
+] }
